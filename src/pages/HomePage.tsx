@@ -1,6 +1,7 @@
 import { PromoBanner } from '../components/promo/PromoBanner'
 import type { Promotion } from '../utils/promotions'
-import { ArrowUpRight, Bell, Heart, Search, SlidersHorizontal, SprayCan } from 'lucide-react'
+import { ArrowUpRight, Bell, Heart, Search, SlidersHorizontal, SprayCan, Truck, WashingMachine } from 'lucide-react'
+import type { ReactNode } from 'react'
 // TODO(AQUA): mahsulotlar fotosi kelganda almashtiriladi — hozircha logo
 import heroProducts from '../images/aqua-mark.png'
 import { BrandLogo } from '../components/brand/BrandLogo'
@@ -87,33 +88,42 @@ export function HomePage({
     else if (b.target === 'url' && /^https?:\/\//i.test(b.url)) openExternalLink(b.url)
   }
 
-  // Asosiy banner — dengiz ko'ki fon, krem yozuv, o'ngda mahsulot fotosi
-  const defaultHero = (
-    <div className="hero-banner">
-      <div className="hero-banner__inner">
-        <span className="hero-glow" aria-hidden="true" />
-
-        <div className="relative z-10 max-w-[60%] sm:max-w-[380px]">
-          <span className="hero-badge">{t('home.heroBadge')}</span>
-          <h2 className="hero-title">{t('home.heroTitle')}</h2>
-          <p className="hero-sub">{t('home.heroSubtitle')}</p>
-          <button onClick={() => onNavigate('catalog')} className="hero-cta">
-            <span>{t('home.heroCta')}</span>
-            <span className="hero-cta__arrow"><ArrowUpRight size={18} strokeWidth={2.4} /></span>
-          </button>
-        </div>
-
-        <img
-          className="hero-art"
-          src={heroProducts}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-          fetchPriority="high"
-        />
+  /*
+   * O'zimizning uchta slayd — doim karusel boshida (admin bannerlari
+   * ulardan keyin). Rasm o'ng tomonda, banner tepasidan biroz chiqib
+   * turadi. Mahsulot fotolari kelganda `art` ga rasm qo'yiladi.
+   */
+  const mainLine = MAIN_LINES[0]?.name
+  const heroSlide = (
+    key: string,
+    tone: 'sand' | 'mist' | 'navy',
+    badge: string,
+    title: string,
+    cta: string,
+    onClick: () => void,
+    art: ReactNode,
+  ) => (
+    <div key={key} className={`hs hs--${tone}`}>
+      <div className="hs__text">
+        <span className="hs__badge">{badge}</span>
+        <h2 className="hs__title">{title}</h2>
+        <button onClick={onClick} className="hs__cta">
+          <span>{cta}</span>
+          <span className="hs__arrow"><ArrowUpRight size={17} strokeWidth={2.4} /></span>
+        </button>
       </div>
+      <div className="hs__art" aria-hidden="true">{art}</div>
     </div>
   )
+  const ownSlides = [
+    heroSlide('s1', 'sand', t('home.heroBadge'), t('home.heroTitle'), t('home.heroCta'), () => onNavigate('catalog'),
+      <img src={heroProducts} alt="" decoding="async" fetchPriority="high" />),
+    heroSlide('s2', 'mist', t('home.hero2Badge'), t('home.hero2Title'), t('home.hero2Cta'),
+      () => (mainLine ? onOpenCategory(mainLine) : onNavigate('catalog')),
+      <span className="hs__icon"><WashingMachine size={64} strokeWidth={1.6} /></span>),
+    heroSlide('s3', 'navy', t('home.hero3Badge'), t('home.hero3Title'), t('home.hero3Cta'), () => onNavigate('catalog'),
+      <span className="hs__icon"><Truck size={64} strokeWidth={1.6} /></span>),
+  ]
 
   return (
     <>
@@ -182,19 +192,15 @@ export function HomePage({
         </section>
       )}
 
-      {/* Hero: asosiy banner doim birinchi; admin qo'shgan bannerlar bo'lsa —
-          karusel, har 5 soniyada o'ngga suriladi */}
-      <section className="mx-5 mt-6 sm:mx-10">
-        {banners.length > 0
-          ? (
-            <HeroCarousel
-              slides={[
-                defaultHero,
-                ...banners.map((b) => <HeroSlide key={b.id} banner={b} lang={lang} onOpen={() => openBanner(b)} />),
-              ]}
-            />
-          )
-          : defaultHero}
+      {/* Hero karusel: o'zimizning 3 ta slayd, keyin admin bannerlari.
+          Har 5 soniyada o'ngga suriladi, pastda nuqtalar. */}
+      <section className="mx-5 mt-3 sm:mx-10">
+        <HeroCarousel
+          slides={[
+            ...ownSlides,
+            ...banners.map((b) => <HeroSlide key={b.id} banner={b} lang={lang} onOpen={() => openBanner(b)} />),
+          ]}
+        />
       </section>
 
       {/* Asosiy yo'nalishlar — gorizontal kartochkalar: nomi chapda,

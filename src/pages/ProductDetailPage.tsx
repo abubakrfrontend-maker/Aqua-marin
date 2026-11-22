@@ -112,37 +112,18 @@ export function ProductDetailPage({
 
   return (
     <>
-      <header className="page-head flex items-center justify-between px-5 pt-8 sm:px-10 page-animate">
+      <header className="page-head pd-head px-5 pt-8 sm:px-10 page-animate">
         <button onClick={onBack} className="back-button" aria-label={t('common.back')}>
           <ArrowLeft size={20} />
         </button>
-        <PageTitle as="h2" className="text-lg font-bold">{t('product.title')}</PageTitle>
-        <div className="ml-auto flex gap-1">
-          <button
-            onClick={(e) => {
-              if (!favourite) heartBurst(e.currentTarget)
-              onToggleLike(product.id)
-            }}
-            className="icon-button"
-            style={{ color: favourite ? 'var(--brand)' : 'var(--ink)' }}
-            aria-label={t('favorites.title')}
-            aria-pressed={favourite}
-          >
-            <Heart size={21} fill={favourite ? 'currentColor' : 'none'} />
-          </button>
-          <CartButton count={cartCount} onClick={onOpenCart} />
-        </div>
+        <PageTitle as="h2" className="pd-head__title">{t('product.title')}</PageTitle>
+        <CartButton count={cartCount} onClick={onOpenCart} />
       </header>
 
       {/* Rasm galereyasi */}
-      <section className="relative mx-auto mt-3 max-w-3xl px-5" style={{ animation: 'fadeInUp 0.4s ease' }}>
+      <section className="relative mx-auto mt-4 max-w-3xl px-5" style={{ animation: 'fadeInUp 0.4s ease' }}>
         {product.discount && !soldOut && (
-          <span
-            className="absolute left-8 top-3 z-10 rounded-lg px-2.5 py-1 text-xs font-bold"
-            style={{ background: 'var(--brand-strong)', color: 'var(--brand-ink)' }}
-          >
-            {product.discount}
-          </span>
+          <span className="pd-discount">{product.discount}</span>
         )}
         {/*
           * Rasm ABSOLYUT joylashtirilgan, `place-items-center` grid ichida emas.
@@ -156,16 +137,11 @@ export function ProductDetailPage({
         <div
           data-fly-source
           className={
-            'pd-hero relative mx-auto w-full overflow-hidden rounded-2xl border '
+            'pd-hero relative mx-auto w-full overflow-hidden '
             // Set rasmi 16:9 — maydon ham shunday, tepa-pastda oq bo'shliq qolmasin
-            + (product.bundle?.length ? 'aspect-video' : 'h-[280px] sm:h-[380px]')
+            + (product.bundle?.length ? 'aspect-video' : 'h-[320px] sm:h-[420px]')
           }
-          style={{
-            // Shaffof PNG'lar uchun fon yuzaning o'zi; ramka chegara bilan beriladi
-            background: 'var(--surface)',
-            borderColor: 'var(--line)',
-            opacity: soldOut ? 0.55 : 1,
-          }}
+          style={{ opacity: soldOut ? 0.55 : 1 }}
         >
           {images[activeImage] ? (
             <button
@@ -209,24 +185,32 @@ export function ProductDetailPage({
       </section>
 
       <section className="mx-5 mt-5 pb-40 sm:mx-10 page-animate">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="font-bold" style={{ color: 'var(--brand)' }}>{product.category}</span>
-          <span
-            className="flex items-center gap-2 rounded-2xl px-3.5 py-2 text-sm font-bold"
-            style={{ background: 'var(--brand-soft)', color: 'var(--brand)' }}
+        <p className="pd-category">{product.category}</p>
+
+        <div className="mt-1 flex items-start gap-3">
+          <h1 className="pd-name">{product.name}</h1>
+          <button
+            onClick={(e) => {
+              if (!favourite) heartBurst(e.currentTarget)
+              onToggleLike(product.id)
+            }}
+            className={'pd-like ' + (favourite ? 'liked' : '')}
+            aria-label={t('favorites.title')}
+            aria-pressed={favourite}
           >
-            <Truck size={17} /> {t('product.fastDelivery')}
-          </span>
+            <Heart size={21} fill={favourite ? 'currentColor' : 'none'} />
+          </button>
         </div>
 
-        <h1 className="mt-4 text-2xl font-extrabold sm:text-3xl" style={{ color: 'var(--ink)', textWrap: 'balance' }}>
-          {product.name}
-        </h1>
-
-        <p className="mt-3 flex flex-wrap items-center gap-2 text-sm" style={{ color: 'var(--muted)' }}>
-          <Star size={18} fill="var(--warning)" style={{ color: 'var(--warning)' }} />
-          {avgRating} ({t('product.ratingCount', { count: reviewCount })})
-        </p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <span className="pd-chip">
+            <Star size={15} fill="var(--warning)" style={{ color: 'var(--warning)' }} />
+            {avgRating} ({t('product.ratingCount', { count: reviewCount })})
+          </span>
+          <span className="pd-chip">
+            <Truck size={15} /> {t('product.fastDelivery')}
+          </span>
+        </div>
 
         <div className="mt-5 flex items-baseline gap-3">
           {/* O'ramli mahsulot: 1 donasi narxi; o'ram narxi pastda va savatda */}
@@ -312,22 +296,39 @@ export function ProductDetailPage({
           </section>
         )}
 
-        {product.sizes && product.sizes.length > 0 && (
-          <section className="detail-panel">
-            <b style={{ color: 'var(--ink)' }}>{t('product.chooseSize')}</b>
-            <div className="mt-4 grid grid-cols-4 gap-3 sm:grid-cols-7">
-              {product.sizes.map((s) => (
-                <button
-                  onClick={() => setSelectedSize(s)}
-                  className={'size-chip ' + (selectedSize === s ? 'active' : '')}
-                  key={s}
-                >
-                  <b>{s}</b>
-                </button>
-              ))}
+        {/* Hajm (chapda) va soni (o'ngda) — bitta qatorda */}
+        <section className="pd-options">
+          <div className="min-w-0 flex-1">
+            {product.sizes && product.sizes.length > 0 && (
+              <>
+                <p className="pd-label">{t('product.chooseSize')}</p>
+                <div className="mt-2.5 flex flex-wrap gap-2">
+                  {product.sizes.map((s) => (
+                    <button
+                      onClick={() => setSelectedSize(s)}
+                      className={'size-chip ' + (selectedSize === s ? 'active' : '')}
+                      key={s}
+                    >
+                      <b>{s}</b>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+          <div className="shrink-0">
+            <p className="pd-label text-right">{t('product.qty')}</p>
+            <div className="pd-qty mt-2.5">
+              <button onClick={() => setCount(Math.max(1, count - 1))} aria-label="-">
+                <Minus size={16} />
+              </button>
+              <b>{count}</b>
+              <button onClick={() => setCount(Math.min(maxCount, count + 1))} disabled={count >= maxCount} aria-label="+">
+                <Plus size={16} />
+              </button>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {product.description && (
           <section className="detail-panel">
@@ -431,58 +432,20 @@ export function ProductDetailPage({
       </section>
 
       {/* Pastki panel — modal ochiq bo'lsa chizilmaydi */}
+      {/* Pastki panel: jami narx va «Savatga qo'shish». Qo'shilgan mahsulot
+          rasmi tepadagi savat belgisiga uchadi. */}
       {!hideBottomBar && createPortal(
-        <div
-          className="fixed bottom-0 left-0 right-0 z-[100] border-t p-4"
-          style={{
-            borderColor: 'var(--line)',
-            background: 'color-mix(in srgb, var(--surface) 94%, transparent)',
-            backdropFilter: 'blur(12px)',
-            paddingBottom: 'calc(1rem + var(--safe-bottom))',
-          }}
-        >
-          <div className="mx-auto flex max-w-[1120px] items-center gap-2 sm:gap-3">
-            <div className="hidden sm:block">
-              <b className="text-xl" style={{ color: 'var(--ink)' }}>{formatPrice(product.price)}</b>
+        <div className="pd-bar">
+          <div className="pd-bar__inner">
+            <div className="min-w-0">
+              <p className="pd-bar__label">{t('product.totalPrice')}</p>
+              <b className="pd-bar__price">{formatPrice(product.price * count)}</b>
             </div>
-            <div className="flex items-center gap-2 rounded-2xl p-1.5" style={{ background: 'var(--surface-2)' }}>
-              <button
-                onClick={() => setCount(Math.max(1, count - 1))}
-                className="grid size-8 place-items-center rounded-lg transition active:scale-90"
-                style={{ color: 'var(--ink)' }}
-                aria-label="-"
-              >
-                <Minus size={18} />
-              </button>
-              <b className="w-5 text-center" style={{ color: 'var(--ink)' }}>{count}</b>
-              <button
-                onClick={() => setCount(Math.min(maxCount, count + 1))}
-                disabled={count >= maxCount}
-                className="grid size-8 place-items-center rounded-lg transition active:scale-90 disabled:opacity-40"
-                style={{ color: 'var(--ink)' }}
-                aria-label="+"
-              >
-                <Plus size={18} />
-              </button>
-            </div>
-            <button onClick={handleAddToCart} disabled={soldOut} className="btn-primary pd-add ml-auto flex-1 py-3.5">
-              <ShoppingCart size={19} />
-              <span className="truncate text-sm sm:text-base">
-                {soldOut ? t('product.soldOut') : t('product.addToCart')}
+            <button onClick={handleAddToCart} disabled={soldOut} className="btn-primary pd-add">
+              <ShoppingBag size={19} />
+              <span className="truncate">
+                {soldOut ? t('product.soldOut') : t('product.addShort')}
               </span>
-            </button>
-            {/* Savat — soni ustida; qo'shilgan mahsulot rasmi aynan shu yerga uchadi */}
-            <button
-              type="button"
-              onClick={onOpenCart}
-              className={'pd-cart ' + (cartCount > 0 ? 'has-items' : '')}
-              data-cart-target="primary"
-              aria-label={`${t('cart.title')}${cartCount ? ` (${cartCount})` : ''}`}
-            >
-              <ShoppingBag size={22} strokeWidth={2.2} />
-              {cartCount > 0 && (
-                <span key={cartCount} className="pd-cart__badge">{cartCount > 99 ? '99+' : cartCount}</span>
-              )}
             </button>
           </div>
         </div>,

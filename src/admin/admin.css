@@ -6,6 +6,7 @@
  * Bu yerda faqat admin panelga xos layout va komponentlar.
  */
 @import "../styles.css";
+@import "../aqua-ui.css";
 
 :root {
   --admin-sidebar: 248px;
@@ -579,7 +580,7 @@
     display: block !important;
     background: #ffffff;
     color: #000000;
-    font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   }
 
   .adm-receipt {
@@ -589,7 +590,7 @@
     padding: 0;
     background: #ffffff;
     color: #000000;
-    font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+    font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   }
 
   @page { size: A4; margin: 14mm; }

@@ -7,7 +7,7 @@
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
   color: #fff;
-  font-family: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   background: radial-gradient(ellipse 80% 90% at 35% 45%, #0f467a 0%, #06294a 42%, #020e1a 100%);
   user-select: none;
 }
@@ -46,7 +46,7 @@
 }
 .gs-brand { display: flex; align-items: center; gap: 14px; }
 .gs-brand img { width: clamp(44px, 5.4vh, 66px); height: clamp(44px, 5.4vh, 66px); border-radius: 30%; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); }
-.gs-brand b { display: block; font-family: "Archivo Black", "Montserrat", sans-serif; font-size: clamp(20px, 3vh, 36px); letter-spacing: 0.04em; line-height: 1; }
+.gs-brand b { display: block; font-family: "Space Grotesk", sans-serif; font-size: clamp(20px, 3vh, 36px); letter-spacing: 0.04em; line-height: 1; }
 .gs-brand span {
   display: block;
   margin-top: 6px;
@@ -66,7 +66,7 @@
   text-align: center;
   backdrop-filter: blur(6px);
 }
-.gs-stats b { display: block; font-family: "Archivo Black", sans-serif; font-size: clamp(18px, 2.6vh, 32px); line-height: 1.1; color: #ffd43b; }
+.gs-stats b { display: block; font-family: "Space Grotesk", sans-serif; font-size: clamp(18px, 2.6vh, 32px); line-height: 1.1; color: #ffd43b; }
 .gs-stats span { font-size: clamp(10px, 1.3vh, 14px); font-weight: 700; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.06em; }
 .gs-tools { display: flex; gap: 8px; }
 .gs-tools button {
@@ -107,7 +107,7 @@
   filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
 }
 .gs-pointer svg { display: block; width: 100%; }
-.gs-slice-text { font-family: "Montserrat", sans-serif; font-weight: 800; paint-order: stroke; }
+.gs-slice-text { font-family: "Space Grotesk", sans-serif; font-weight: 800; paint-order: stroke; }
 .gs-slice path, .gs-slice circle { transition: filter 0.15s; }
 .gs-slice--hot path { filter: brightness(1.25) saturate(1.1); }
 
@@ -126,7 +126,7 @@
   border: 0;
   border-radius: 999px;
   cursor: pointer;
-  font-family: "Archivo Black", "Montserrat", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: clamp(18px, 2.6vh, 30px);
   letter-spacing: 0.02em;
   color: #3a2600;
@@ -168,7 +168,7 @@
   color: #3a2600;
   background: linear-gradient(90deg, #ffe680, #ffc933);
 }
-.gs-round h2 { margin: 12px 0 6px; font-family: "Archivo Black", sans-serif; font-size: clamp(26px, 4.4vh, 54px); line-height: 1.05; }
+.gs-round h2 { margin: 12px 0 6px; font-family: "Space Grotesk", sans-serif; font-size: clamp(26px, 4.4vh, 54px); line-height: 1.05; }
 .gs-round p { margin: 0; font-size: clamp(13px, 1.8vh, 19px); font-weight: 600; line-height: 1.4; opacity: 0.88; }
 .gs-list { list-style: none; margin: clamp(10px, 1.8vh, 20px) 0 0; padding: 0; display: grid; gap: clamp(5px, 0.9vh, 9px); }
 .gs-list li {
@@ -188,7 +188,7 @@
 .gs-list i { width: 14px; height: 14px; border-radius: 4px; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5); }
 .gs-list b { font-size: clamp(14px, 2vh, 21px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .gs-list span { font-size: clamp(12px, 1.5vh, 15px); font-weight: 700; opacity: 0.75; }
-.gs-list em { font-style: normal; font-family: "Archivo Black", sans-serif; font-size: clamp(15px, 2.1vh, 22px); color: #ffd43b; text-align: right; }
+.gs-list em { font-style: normal; font-family: "Space Grotesk", sans-serif; font-size: clamp(15px, 2.1vh, 22px); color: #ffd43b; text-align: right; }
 .gs-list s {
   position: absolute !important;
   z-index: 0 !important;
@@ -219,7 +219,7 @@
   min-width: 0;
 }
 .gs-step span { display: block; font-size: clamp(10px, 1.35vh, 14px); font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.7; }
-.gs-step b { display: block; margin-top: 4px; font-family: "Archivo Black", sans-serif; font-size: clamp(16px, 2.6vh, 30px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.35; }
+.gs-step b { display: block; margin-top: 4px; font-family: "Space Grotesk", sans-serif; font-size: clamp(16px, 2.6vh, 30px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.35; }
 .gs-step em { display: block; font-style: normal; font-size: clamp(10px, 1.35vh, 14px); font-weight: 700; opacity: 0.8; }
 .gs-step.is-next { border-color: #ffd43b; animation: gs-glow 1.6s ease-in-out infinite; }
 .gs-step.is-won {
@@ -236,7 +236,7 @@
   background: radial-gradient(circle, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.7));
 }
 .gs-count b {
-  font-family: "Archivo Black", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: 34vh;
   color: #ffd43b;
   text-shadow: 0 0 60px rgba(255, 212, 59, 0.8), 0 12px 0 #9a6b00;
@@ -275,7 +275,7 @@
 .gs-card-round { margin: 14px 0 0; font-weight: 800; font-size: clamp(14px, 2.2vh, 24px); color: #0a447a; text-transform: uppercase; letter-spacing: 0.06em; }
 .gs-card h1 {
   margin: 6px 0 4px;
-  font-family: "Archivo Black", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
   font-size: clamp(48px, 11vh, 132px);
   line-height: 1;
   background: linear-gradient(180deg, #0f4f8a, #052e54);

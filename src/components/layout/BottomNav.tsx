@@ -49,7 +49,8 @@ export function BottomNav({ page, onNavigate, onOpenCart, cartOpen, cartCount, o
     const nav = ref.current
     if (!nav) return
     const root = document.documentElement
-    const apply = () => root.style.setProperty('--nav-h', `${Math.ceil(nav.getBoundingClientRect().height)}px`)
+    // Menyu suzib turadi (pastdan bo'shliq bilan) — balandlikka shu bo'shliq ham kiradi
+    const apply = () => root.style.setProperty('--nav-h', `${Math.ceil(window.innerHeight - nav.getBoundingClientRect().top)}px`)
     apply()
     if (typeof ResizeObserver === 'undefined') return
     const observer = new ResizeObserver(apply)
@@ -73,23 +74,25 @@ export function BottomNav({ page, onNavigate, onOpenCart, cartOpen, cartCount, o
             onClick={() => (isCart ? onOpenCart() : onNavigate(id as AppPage))}
             key={id}
             aria-current={active ? 'page' : undefined}
+            aria-label={t(labelKey)}
             className={'nav-item ' + (active ? 'active' : '')}
           >
             {/* data-cart-target — savatga qo'shilgan mahsulot shu belgiga uchadi */}
-            <span className="relative" {...(isCart ? { 'data-cart-target': '' } : {})}>
-              <Icon size={23} fill={active ? 'currentColor' : 'none'} />
+            <span className="nav-icon relative" {...(isCart ? { 'data-cart-target': '' } : {})}>
+              <Icon size={21} strokeWidth={active ? 2.3 : 2} />
               {/* Son ikonka ustida: savatda — nechta mahsulot, buyurtmalarda —
                   nechta buyurtmaning holati o'zgargan */}
               {badge > 0 && (
                 <span
                   className={'absolute -right-2 -top-1 grid size-4 place-items-center rounded-full text-[9px] font-bold' + (isCart ? '' : ' nav-badge--pop')}
-                  style={{ background: 'var(--brand)', color: 'var(--brand-ink)' }}
+                  style={{ background: 'var(--danger)', color: '#ffffff' }}
                 >
                   {badge > 9 ? '9+' : badge}
                 </span>
               )}
             </span>
-            <span className="text-center">{t(labelKey)}</span>
+            {/* Yozuv faqat faol bo'limda ko'rinadi (pill ichida) */}
+            <span className="nav-label" aria-hidden="true">{t(labelKey)}</span>
             {id === 'orders' && badge > 0 && <span className="sr-only">{t('orders.updated', { count: badge })}</span>}
           </button>
         )

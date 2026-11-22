@@ -4,12 +4,11 @@
 /* ══════════════════════════════════════════════════════════════
    Aqua Marin DIZAYN TOKENLARI
 
-   Brend ranglari Aqua Marin logosidan olingan:
-     to'q ko'k  #1B4F82  — asosiy (logo doirasi)
-     havorang   #22E3F2  — aksent (logodagi «MARIN»); qorong'ida asosiy
-     moviy      #0B7F93  — uchinchi rang (havorangning o'qiladigan varianti)
-     sariq      #F2C94C  — faqat reyting yulduzlari va chegirma nishonlari
-     tun        #091019  — qorong'i rejim asosi
+   Brend ranglari (Aqua Marin v2):
+     dengiz ko'ki  #082052  — asosiy (matn, tugmalar, faol holat)
+     krem          #F8F0E5  — sahifa foni; qorong'ida asosiy rang
+     oq            #FFFFFF  — kartalar
+     sariq         #F2C94C  — faqat reyting yulduzlari
 
    Barcha ranglar shu yerda. Komponentlarda hex yozilmaydi —
    faqat var(--...) yoki Tailwind utilitasi (bg-surface, text-ink).
@@ -25,28 +24,28 @@
   /* Klaviatura balandligi — use-keyboard-inset.ts yozadi */
   --kb: 0px;
   /* Yuzalar — sof oq ustiga zaif moviy tusli fon */
-  --bg: #eef4fa;
+  --bg: #f8f0e5;
   --surface: #ffffff;
-  --surface-2: #f7fafd;
-  --surface-3: #e8f0f8;
+  --surface-2: #fcf8f2;
+  --surface-3: #f1e7d9;
 
   /* Matn */
-  --ink: #0c1a2b;
-  --ink-2: #2a3c52;
-  --muted: #5a6e84;
-  --faint: #8698ac;
+  --ink: #082052;
+  --ink-2: #2b3a62;
+  --muted: #6b7491;
+  --faint: #9aa0b4;
 
   /* Chegaralar */
-  --line: #e0e9f2;
-  --line-soft: #edf3f9;
+  --line: #ece2d3;
+  --line-soft: #f4ece1;
 
   /* Brend — Aqua Marin to'q ko'ki (logo doirasi) */
-  --brand: #1b4f82;
-  --brand-strong: #133d66;
-  --brand-ink: #ffffff;
-  --brand-soft: #e6eff8;
-  --brand-soft-2: #cddff0;
-  --brand-line: #abc8e4;
+  --brand: #082052;
+  --brand-strong: #04122f;
+  --brand-ink: #f8f0e5;
+  --brand-soft: #e9ecf4;
+  --brand-soft-2: #d4dae9;
+  --brand-line: #b8c1d9;
 
   /* Aksent — Aqua Marin sarig'i (reyting yulduzlari, chegirma nishonlari).
      Matn uchun to'qroq variant: logodagi ochiq sariq oq fonda o'qilmaydi.
@@ -59,37 +58,37 @@
 
   /* Katalog kategoriya chiplari — logodagi havorang.
      Tanlanmagan chip shu rangda, tanlangani to'q ko'k (pastda). */
-  --pill-1: #a8eef7;
-  --pill-2: #6fdfee;
-  --pill-ink: #053743;
+  --pill-1: #efe3d1;
+  --pill-2: #e6d5bd;
+  --pill-ink: #082052;
 
   /* Uchinchi rang — moviy (logodagi havorang, oq fonda o'qiladigan) */
-  --royal: #0b7f93;
-  --royal-strong: #08667a;
+  --royal: #2c4f93;
+  --royal-strong: #1d3a74;
   --royal-ink: #ffffff;
-  --royal-soft: #e2f7fa;
-  --royal-line: #a6e3ec;
+  --royal-soft: #e7ecf6;
+  --royal-line: #b9c7e4;
 
   /* Semantik */
-  --success: #0e8a6a;
-  --success-soft: #e3f5ef;
+  --success: #1e8a5a;
+  --success-soft: #e4f4ec;
   --warning: #a9760a;
   --warning-soft: #fff7de;
   --danger: #d02c26;
   --danger-soft: #fdecea;
-  --info: #1b6fc0;
-  --info-soft: #e6f0fb;
+  --info: #2c4f93;
+  --info-soft: #e7ecf6;
 
   /* Radiuslar — uchta pog'ona, aralashtirilmaydi */
-  --r-sm: 10px;
-  --r-md: 16px;
-  --r-lg: 24px;
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 28px;
 
   /* Soyalar — rangsiz, ikki qatlamli */
-  --shadow-sm: 0 1px 2px rgb(8 24 44 / 0.04), 0 1px 3px rgb(8 24 44 / 0.03);
-  --shadow-md: 0 2px 4px rgb(8 24 44 / 0.04), 0 8px 20px rgb(8 24 44 / 0.07);
-  --shadow-lg: 0 4px 8px rgb(8 24 44 / 0.05), 0 16px 36px rgb(8 24 44 / 0.1);
-  --shadow-brand: 0 6px 20px rgb(27 79 130 / 0.28);
+  --shadow-sm: 0 1px 2px rgb(8 32 82 / 0.04), 0 2px 6px rgb(8 32 82 / 0.04);
+  --shadow-md: 0 2px 6px rgb(8 32 82 / 0.05), 0 10px 24px rgb(8 32 82 / 0.08);
+  --shadow-lg: 0 6px 14px rgb(8 32 82 / 0.08), 0 18px 40px rgb(8 32 82 / 0.12);
+  --shadow-brand: 0 8px 22px rgb(8 32 82 / 0.28);
 
   /* Tepadagi yashil tus — navbar ortidan kategoriyalargacha.
      Telegram paneli ham `--tint-top` ga bo'yaladi (utils/theme.ts).
@@ -98,14 +97,14 @@
      deyarli farq qilmasdi. Hozirgisi bir xil ohangda (H≈148°), faqat
      to'qroq — yashilligi bilinadi, lekin brend yashili kabi to'q emas,
      ustidagi qora matn ham bemalol o'qiladi. */
-  --tint-top: #bfe5f3;
-  --tint-mid: #dcf1f9;
+  --tint-top: #f8f0e5;
+  --tint-mid: #f8f0e5;
 
   /* «Shisha» tugma — yashil tus ustida turadigan orqaga tugmasi.
      Yarim shaffof: fonning yashili unda ham sezilib turadi. */
-  --glass-bg: rgb(255 255 255 / 0.62);
+  --glass-bg: rgb(255 255 255 / 0.9);
   --glass-line: rgb(255 255 255 / 0.9);
-  --glass-shadow: 0 1px 2px rgb(8 24 44 / 0.06), 0 4px 14px rgb(8 24 44 / 0.08);
+  --glass-shadow: 0 1px 2px rgb(8 32 82 / 0.05), 0 4px 14px rgb(8 32 82 / 0.08);
 
   /* Telegram xavfsiz zonasi (JS to'ldiradi) */
   --safe-bottom: 0px;
@@ -120,25 +119,25 @@
  */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #091019;
-    --surface: #101923;
-    --surface-2: #17222e;
-    --surface-3: #1f2b39;
+    --bg: #050e24;
+    --surface: #0b1a3a;
+    --surface-2: #102247;
+    --surface-3: #172c56;
 
-    --ink: #e7eff7;
-    --ink-2: #c0cedc;
-    --muted: #8a9cb0;
-    --faint: #70839a;
+    --ink: #f8f0e5;
+    --ink-2: #e2d8c9;
+    --muted: #a6aec4;
+    --faint: #7d87a2;
 
-    --line: #233142;
-    --line-soft: #1a2533;
+    --line: #1d3260;
+    --line-soft: #142a52;
 
-    --brand: #3fd2e8;
-    --brand-strong: #24bcd4;
-    --brand-ink: #03161c;
-    --brand-soft: #0e2731;
-    --brand-soft-2: #12323f;
-    --brand-line: #1d4757;
+    --brand: #f8f0e5;
+    --brand-strong: #eadfcc;
+    --brand-ink: #082052;
+    --brand-soft: #16284d;
+    --brand-soft-2: #1c305b;
+    --brand-line: #2e4579;
 
     --gold: #f2c94c;
     --gold-strong: #d9ae33;
@@ -147,24 +146,24 @@
     --gold-line: #453519;
 
     /* Chiplar: qorong'ida sal to'qroq havorang — ko'zni qamashtirmasin */
-    --pill-1: #5fd6e6;
-    --pill-2: #45c4d6;
-    --pill-ink: #032a33;
+    --pill-1: #172c56;
+    --pill-2: #1d3563;
+    --pill-ink: #f8f0e5;
 
-    --royal: #8cbcf0;
-    --royal-strong: #72a8e6;
+    --royal: #9db6ec;
+    --royal-strong: #86a3e3;
     --royal-ink: #06162e;
     --royal-soft: #14223a;
     --royal-line: #263a5c;
 
-    --success: #3ccf9f;
+    --success: #4fcf94;
     --success-soft: #0f2a22;
     --warning: #f2c94c;
     --warning-soft: #2a2213;
     --danger: #f4756d;
     --danger-soft: #2e1917;
-    --info: #7fb0f5;
-    --info-soft: #16223a;
+    --info: #9db6ec;
+    --info-soft: #14223a;
 
     /* Qorong'i rejimda tus berilmaydi — fon allaqachon to'q */
     --tint-top: transparent;
@@ -191,25 +190,25 @@
   --glass-line: rgb(255 255 255 / 0.1);
   --glass-shadow: none;
 
-  --bg: #091019;
-  --surface: #101923;
-  --surface-2: #17222e;
-  --surface-3: #1f2b39;
+  --bg: #050e24;
+  --surface: #0b1a3a;
+  --surface-2: #102247;
+  --surface-3: #172c56;
 
-  --ink: #e7eff7;
-  --ink-2: #c0cedc;
-  --muted: #8a9cb0;
-  --faint: #70839a;
+  --ink: #f8f0e5;
+  --ink-2: #e2d8c9;
+  --muted: #a6aec4;
+  --faint: #7d87a2;
 
-  --line: #233142;
-  --line-soft: #1a2533;
+  --line: #1d3260;
+  --line-soft: #142a52;
 
-  --brand: #3fd2e8;
-  --brand-strong: #24bcd4;
-  --brand-ink: #03161c;
-  --brand-soft: #0e2731;
-  --brand-soft-2: #12323f;
-  --brand-line: #1d4757;
+  --brand: #f8f0e5;
+  --brand-strong: #eadfcc;
+  --brand-ink: #082052;
+  --brand-soft: #16284d;
+  --brand-soft-2: #1c305b;
+  --brand-line: #2e4579;
 
   --gold: #f2c94c;
   --gold-strong: #d9ae33;
@@ -218,24 +217,24 @@
   --gold-line: #453519;
 
   /* Chiplar: qorong'ida sal to'qroq havorang — ko'zni qamashtirmasin */
-  --pill-1: #5fd6e6;
-  --pill-2: #45c4d6;
-  --pill-ink: #032a33;
+  --pill-1: #172c56;
+  --pill-2: #1d3563;
+  --pill-ink: #f8f0e5;
 
-  --royal: #8cbcf0;
-  --royal-strong: #72a8e6;
+  --royal: #9db6ec;
+  --royal-strong: #86a3e3;
   --royal-ink: #06162e;
   --royal-soft: #14223a;
   --royal-line: #263a5c;
 
-  --success: #3ccf9f;
+  --success: #4fcf94;
   --success-soft: #0f2a22;
   --warning: #f2c94c;
   --warning-soft: #2a2213;
   --danger: #f4756d;
   --danger-soft: #2e1917;
-  --info: #7fb0f5;
-  --info-soft: #16223a;
+  --info: #9db6ec;
+  --info-soft: #14223a;
 
   --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
   --shadow-md: 0 4px 16px rgb(0 0 0 / 0.45);
@@ -248,10 +247,10 @@
 /* Tokenlarni Tailwind utilitalariga bog'laymiz:
    bg-surface, text-ink, border-line, text-brand va h.k. */
 @theme inline {
-  /* Montserrat — Aqua Marin matn shrifti */
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  /* Archivo Black — logotip va yirik sarlavhalar uchun */
-  --font-display: "Archivo Black", "Montserrat", ui-sans-serif, sans-serif;
+  /* Space Grotesk — Aqua Marin matn va sarlavha shrifti */
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  /* Sarlavhalar ham Space Grotesk — qalinroq (700) */
+  --font-display: "Space Grotesk", ui-sans-serif, sans-serif;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
@@ -2914,7 +2913,7 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-/* Logotip yozuvi — Archivo Black */
+/* Logotip yozuvi — Space Grotesk, qalin */
 .wordmark {
   font-family: var(--font-display);
   letter-spacing: -0.02em;

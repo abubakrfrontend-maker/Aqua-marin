@@ -4,7 +4,7 @@
  *
  * Matnlar Aqua Marin — maishiy kimyo va uy tozalash vositalari do'koni uchun:
  * kir yuvish, idish yuvish, uy tozalash vositalari. "O'lcham"
- * o'rniga vazn (gramm/kg), "rang" o'rniga mahsulot turi ishlatiladi.
+ * o'rniga hajm (ml/l/kg), "rang" o'rniga mahsulot turi ishlatiladi.
  */
 export const uz = {
   // ── Umumiy ──
@@ -46,6 +46,7 @@ export const uz = {
   'home.heroCta': 'Buyurtma berish',
   'home.lines': "Yo'nalishlar",
   'home.popular': 'Mashhur mahsulotlar',
+  'home.newArrivals': 'Yangi mahsulotlar',
   'home.seeAll': "Barchasini ko'rish",
   'home.emptyTitle': 'Mahsulotlar tez orada!',
   'home.emptyText': "Admin mahsulot qo'shganda shu yerda ko'rinadi.",
@@ -67,7 +68,7 @@ export const uz = {
   'catalog.priceRange': 'Narx oralig‘i',
   'catalog.priceFrom': 'dan',
   'catalog.priceTo': 'gacha',
-  'catalog.size': 'Vazn',
+  'catalog.size': 'Hajm',
   'catalog.color': 'Turi',
   'catalog.inStockOnly': 'Faqat sotuvdagilar',
   'catalog.reset': 'Tozalash',
@@ -78,7 +79,10 @@ export const uz = {
   'product.title': 'Mahsulot',
   'product.fastDelivery': 'Tez yetkazib beramiz',
   'product.chooseColor': 'Turini tanlang',
-  'product.chooseSize': 'Vaznni tanlang',
+  'product.chooseSize': 'Hajmni tanlang',
+  'product.qty': 'Soni',
+  'product.totalPrice': 'Umumiy narx',
+  'product.addShort': "Savatga qo'shish",
   'product.about': 'Mahsulot haqida',
   'product.zoom': 'Rasmni kattalashtirish',
   'product.addToCart': "Savatchaga qo'shish",
@@ -135,7 +139,7 @@ export const uz = {
   'promo.daysShort': '{d} kun',
   'cart.total': 'Jami',
   'cart.checkout': 'Buyurtma berish',
-  'cart.size': 'Vazn',
+  'cart.size': 'Hajm',
   'cart.color': 'Turi',
   'cart.goToCatalog': "Mahsulotlarni ko‘rish",
 

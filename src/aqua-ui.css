@@ -1,0 +1,532 @@
+/* ══════════════════════════════════════════════════════════════
+   AQUA MARIN UI v2
+
+   Uslub: krem fon (#F8F0E5), oq yumaloq kartalar, dengiz ko'ki
+   (#082052) tugmalar va faol holatlar, «pill» shakllar, suzib
+   turuvchi pastki menyu. Shrift — Space Grotesk.
+
+   Bu fayl styles.css dan KEYIN ulanadi (main.tsx) va faqat
+   ko'rinishni o'zgartiradi: ranglar tokenlardan (var(--...)), shuning
+   uchun qorong'i rejim avtomatik ishlaydi.
+   ══════════════════════════════════════════════════════════════ */
+
+body { letter-spacing: -0.005em; }
+
+/* Sahifa foni — krem (oq kartalar shu fonda ajralib turadi) */
+.app-container { background: var(--bg); box-shadow: none; }
+.app-tint { display: none; }
+
+/* Sarlavhalar — Space Grotesk qalin */
+.section-title,
+.wordmark,
+h1, h2, h3 { font-family: var(--font-display); }
+
+/* ── Doira tugmalar: orqaga, ikonka, savat ── */
+.back-button,
+.icon-button {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.back-button:hover,
+.icon-button:hover { background: var(--surface); box-shadow: var(--shadow-md); }
+
+/* ── Asosiy tugmalar — pill ── */
+.btn-primary { border-radius: 999px; }
+.btn-ghost { border-radius: 999px; }
+
+/* ── Qidiruv — oq pill, o'ngda filtr belgisi ── */
+.search-trigger {
+  height: 3.4rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0 0.5rem 0 1.25rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.search-trigger:hover { box-shadow: var(--shadow-md); }
+.search-trigger__filter {
+  display: grid;
+  width: 44px;
+  height: 36px;
+  flex-shrink: 0;
+  place-items: center;
+  border-left: 1px solid var(--line);
+  color: var(--ink);
+}
+
+/* ── Bosh sahifa banneri ── */
+.hero-banner {
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(90% 120% at 100% 0%, rgb(248 240 229 / 0.1) 0%, transparent 55%),
+    linear-gradient(140deg, #0d2a66 0%, #082052 55%, #051738 100%);
+  color: #f8f0e5;
+  box-shadow: 0 14px 34px -14px rgb(8 32 82 / 0.55);
+}
+:root[data-theme="dark"] .hero-banner { box-shadow: inset 0 0 0 1px var(--line); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .hero-banner { box-shadow: inset 0 0 0 1px var(--line); }
+}
+.hero-banner__inner {
+  position: relative;
+  min-height: 210px;
+  padding: 1.4rem 1.4rem 1.5rem;
+}
+@media (min-width: 640px) {
+  .hero-banner__inner { min-height: 300px; padding: 2.25rem; }
+}
+.hero-glow {
+  right: -10%;
+  width: 60%;
+  background: radial-gradient(circle, rgb(34 227 242 / 0.22) 0%, transparent 65%);
+}
+.hero-badge {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #f8f0e5;
+  color: #082052;
+}
+.hero-title {
+  margin-top: 0.85rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #f8f0e5;
+  text-wrap: balance;
+}
+@media (min-width: 640px) { .hero-title { font-size: 2.2rem; } }
+.hero-sub {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: rgb(248 240 229 / 0.72);
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.35rem 0.35rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #f8f0e5;
+  color: #082052;
+  transition: transform 0.2s ease;
+}
+.hero-cta:active { transform: scale(0.97); }
+.hero-cta__arrow {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 999px;
+  background: #082052;
+  color: #f8f0e5;
+}
+.hero-art {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  width: 34%;
+  height: 72%;
+  transform: translateY(-50%);
+  object-fit: contain;
+}
+.hero-dot { background: var(--line); }
+.hero-dot.is-on { background: var(--ink); }
+
+/* ── Bo'lim sarlavhasi va «Barchasi» ── */
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.see-all {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 4px;
+}
+
+/* ── Yo'nalishlar: gorizontal kartochkalar ── */
+.cat-row {
+  display: flex;
+  gap: 0.65rem;
+  overflow-x: auto;
+  padding: 0.85rem 1.25rem 0.4rem;
+  scroll-padding-inline: 1.25rem;
+  scroll-snap-type: x proximity;
+}
+@media (min-width: 640px) { .cat-row { padding-left: 2.5rem; padding-right: 2.5rem; scroll-padding-inline: 2.5rem; } }
+.cat-chip {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 152px;
+  border-radius: 18px;
+  padding: 0.5rem 0.5rem 0.5rem 0.9rem;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  scroll-snap-align: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cat-chip:hover { box-shadow: var(--shadow-md); }
+.cat-chip:active { transform: scale(0.97); }
+.cat-chip__name {
+  flex: 1;
+  min-width: 0;
+  max-width: 7.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+.cat-chip__media {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+.cat-chip__media img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Bazadagi mayda kategoriyalar lentasi — oq pill */
+.category-strip--compact .category-card { border: none; box-shadow: var(--shadow-sm); border-radius: 16px; }
+
+/* ── Mahsulotlar to'ri (bosh sahifa) ── */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem 0.85rem;
+}
+@media (min-width: 640px) { .home-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .home-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ── Mahsulot kartochkasi: rasm — oq yumaloq plitka, matn ostida ── */
+.product-card {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+}
+.product-card:hover { transform: none; box-shadow: none; }
+.product-card-image {
+  border: none;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.product-card-image .product-image { border-radius: 22px; }
+.product-card:hover .product-card-image { box-shadow: var(--shadow-md); }
+.product-card-like {
+  right: 9px;
+  top: 9px;
+  width: 32px;
+  height: 32px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: none;
+}
+.product-card-like.liked { color: var(--danger); }
+.product-card-badge {
+  left: 9px;
+  top: 9px;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-weight: 600;
+  background: var(--ink);
+  color: var(--bg);
+}
+.product-card-info { padding: 0.6rem 0.15rem 0; }
+.product-card-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.product-card-weight { font-weight: 500; }
+.product-card-footer { padding: 0.35rem 0.15rem 0; }
+.product-card-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.add-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+@media (min-width: 640px) { .add-button { width: 40px; height: 40px; } }
+.qty-stepper { border-radius: 999px; height: 36px; }
+
+.empty-card {
+  border-radius: var(--r-lg);
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.empty-card__icon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+
+/* ── Pastki menyu: suzib turuvchi oq pill ── */
+.bottom-nav {
+  left: 1rem;
+  right: 1rem;
+  bottom: calc(0.75rem + var(--safe-bottom));
+  max-width: 460px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem;
+  background: var(--surface);
+  backdrop-filter: none;
+  box-shadow: var(--shadow-lg);
+}
+:root.kb-open .bottom-nav { transform: translateY(calc(100% + 1rem + var(--safe-bottom))); }
+.nav-item {
+  flex: 0 0 auto;
+  min-width: 48px;
+  height: 48px;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: background-color 0.25s ease, color 0.25s ease, padding 0.25s ease;
+}
+.nav-item:hover { background: transparent; color: var(--ink); }
+.nav-label { display: none; white-space: nowrap; }
+.nav-item.active {
+  padding: 0 1rem 0 0.35rem;
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+.nav-item.active .nav-label { display: inline; animation: navLabelIn 0.3s ease; }
+.nav-icon { display: grid; place-items: center; }
+.nav-item.active .nav-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+@keyframes navLabelIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
+
+/* ── Mahsulot sahifasi ── */
+.pd-head {
+  display: grid;
+  grid-template-columns: 44px 1fr 44px;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pd-head__title {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+.pd-hero {
+  border-radius: 30px;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.pd-hero .product-image { border-radius: 30px; }
+.pd-discount {
+  position: absolute;
+  left: 2.1rem;
+  top: 0.9rem;
+  z-index: 10;
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--ink);
+  color: var(--bg);
+}
+.pd-category {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.pd-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+@media (min-width: 640px) { .pd-name { font-size: 1.9rem; } }
+.pd-like {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+.pd-like:active { transform: scale(0.9); }
+.pd-like.liked { color: var(--danger); }
+.pd-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  background: var(--surface);
+  color: var(--ink-2);
+  box-shadow: var(--shadow-sm);
+}
+.pd-options {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+.pd-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.size-chip {
+  min-height: 40px;
+  min-width: 46px;
+  border: none;
+  border-radius: 12px;
+  padding: 0 0.75rem;
+  font-size: 0.85rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.size-chip b { font-weight: 600; }
+.size-chip:hover { background: var(--surface); box-shadow: var(--shadow-md); }
+.size-chip.active {
+  background: var(--brand);
+  color: var(--brand-ink);
+  box-shadow: none;
+}
+.pd-qty {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  border-radius: 999px;
+  padding: 0.25rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.pd-qty button {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--ink);
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.pd-qty button:hover:not(:disabled) { background: var(--brand-soft); }
+.pd-qty button:active:not(:disabled) { transform: scale(0.9); }
+.pd-qty button:disabled { opacity: 0.35; }
+.pd-qty b { min-width: 1.6rem; text-align: center; font-weight: 600; color: var(--ink); }
+.detail-panel {
+  border: none;
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+}
+.pd-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  border-radius: 28px 28px 0 0;
+  padding: 1rem 1.25rem calc(1rem + var(--safe-bottom));
+  background: var(--surface);
+  box-shadow: 0 -8px 30px rgb(8 32 82 / 0.1);
+}
+.pd-bar__inner {
+  display: flex;
+  max-width: 720px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 auto;
+}
+.pd-bar__label { font-size: 0.78rem; font-weight: 500; color: var(--muted); }
+.pd-bar__price {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.pd-add {
+  height: 54px;
+  min-width: 0;
+  flex: 0 1 auto;
+  padding: 0 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.dot { background: var(--line); }
+.dot.active { background: var(--ink); }
+
+/* ── Katalog filtrlari va boshqa kichik elementlar ── */
+.catalog-category,
+.filter-button { border-radius: 999px; }
+.field { border-radius: 16px; }
+
+/* Gorizontal lentalar: scroll-snap birinchi elementni ichki chekinish bilan joylasin */
+.category-strip { scroll-padding-inline: 1.25rem; }
+@media (min-width: 640px) { .category-strip { scroll-padding-inline: 2.5rem; } }

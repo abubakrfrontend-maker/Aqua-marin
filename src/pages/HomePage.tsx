@@ -1,6 +1,6 @@
 import { PromoBanner } from '../components/promo/PromoBanner'
 import type { Promotion } from '../utils/promotions'
-import { ArrowRight, Bell, CookingPot, Heart, Search } from 'lucide-react'
+import { ArrowUpRight, Bell, Heart, Search, SlidersHorizontal, SprayCan } from 'lucide-react'
 // TODO(AQUA): mahsulotlar fotosi kelganda almashtiriladi — hozircha logo
 import heroProducts from '../images/aqua-mark.png'
 import { BrandLogo } from '../components/brand/BrandLogo'
@@ -18,12 +18,11 @@ import { HeroSlide } from '../components/home/HeroSlide'
 import type { HomeBanner } from '../config/banners'
 import { openExternalLink } from '../utils/telegram'
 import type { AppPage, Category, Product, ProductActions } from '../types/domain'
-import { PromoBadge } from '../components/home/PromoBadge'
 import { FreeDeliveryBanner } from '../components/promo/FreeDeliveryTimer'
 import { GiveawayCard } from '../components/promo/GiveawayCard'
 
-/** «Aksiyadagi set mahsulotlar» yorlig'i shu yo'nalish kartasida («Setlar» yozuvi o'rniga). */
-const PROMO_LINE = 'Setlar'
+/** Admin «Mashhur» belgilamagan bo'lsa — bosh sahifada shuncha yangi mahsulot. */
+const NEW_ARRIVALS = 6
 
 type Props = ProductActions & {
   products: Product[]
@@ -54,7 +53,6 @@ export function HomePage({
 
   // Ikkala lenta ham sekin o'ziga surilib turadi (karusel)
   const stripRef = useRef<HTMLDivElement>(null)
-  const popularRef = useRef<HTMLDivElement>(null)
   useAutoScroll(stripRef, { speed: 16, enabled: categories.length > 3 })
   /*
    * Faqat admin «Mashhur» deb belgilaganlar, admin tartibida.
@@ -67,9 +65,18 @@ export function HomePage({
       .sort((a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER)),
     [products],
   )
-  useAutoScroll(popularRef, { speed: 11, enabled: popular.length > 2 })
+  /*
+   * Bosh sahifa to'ri: admin belgilagan «Mashhur»lar, ular bo'lmasa —
+   * eng yangi mahsulotlar (id — qo'shilgan vaqt bo'yicha o'sadi).
+   */
+  const featured = useMemo(
+    () => (popular.length > 0
+      ? popular
+      : products.filter((p) => p.stock !== 0).sort((a, b) => b.id - a.id).slice(0, NEW_ARRIVALS)),
+    [popular, products],
+  )
   // Bo'limlar scroll qilinganda suzib chiqadi — mahsulotlar kelgach yangilari ham
-  useReveal([loading, popular.length, categories.length])
+  useReveal([loading, featured.length, categories.length])
 
   /** Banner bosilganda — admin tanlagan joy ochiladi. */
   const openBanner = (b: HomeBanner) => {
@@ -80,39 +87,24 @@ export function HomePage({
     else if (b.target === 'url' && /^https?:\/\//i.test(b.url)) openExternalLink(b.url)
   }
 
-  // Asosiy banner — Aqua Marin yashil sahnasi, o'ngda mahsulot fotosi
+  // Asosiy banner — dengiz ko'ki fon, krem yozuv, o'ngda mahsulot fotosi
   const defaultHero = (
     <div className="hero-banner">
-      <div className="relative min-h-[260px] p-6 sm:min-h-[340px] sm:p-9">
+      <div className="hero-banner__inner">
         <span className="hero-glow" aria-hidden="true" />
 
-        <div className="relative z-10 max-w-[58%] sm:max-w-[380px]">
-          <span
-            className="inline-block rounded-full px-3 py-1 text-xs font-bold"
-            style={{ background: '#ffffff', color: 'var(--brand-strong)' }}
-          >
-            {t('home.heroBadge')}
-          </span>
-          <h2
-            className="wordmark mt-4 text-[1.5rem] leading-[1.15] sm:text-[2.4rem]"
-            style={{ color: '#ffffff', textWrap: 'balance' }}
-          >
-            {t('home.heroTitle')}
-          </h2>
-          <p className="mt-3 text-sm sm:text-base" style={{ color: 'rgb(255 255 255 / 0.78)' }}>
-            {t('home.heroSubtitle')}
-          </p>
-          <button
-            onClick={() => onNavigate('catalog')}
-            className="mt-5 flex w-fit items-center gap-2 whitespace-nowrap rounded-full px-5 py-3 font-bold transition active:scale-[0.98]"
-            style={{ background: '#ffffff', color: 'var(--brand-strong)' }}
-          >
-            {t('home.heroCta')} <ArrowRight size={18} />
+        <div className="relative z-10 max-w-[60%] sm:max-w-[380px]">
+          <span className="hero-badge">{t('home.heroBadge')}</span>
+          <h2 className="hero-title">{t('home.heroTitle')}</h2>
+          <p className="hero-sub">{t('home.heroSubtitle')}</p>
+          <button onClick={() => onNavigate('catalog')} className="hero-cta">
+            <span>{t('home.heroCta')}</span>
+            <span className="hero-cta__arrow"><ArrowUpRight size={18} strokeWidth={2.4} /></span>
           </button>
         </div>
 
         <img
-          className="pointer-events-none absolute top-1/2 right-[-6%] h-[118%] w-[52%] -translate-y-1/2 object-contain object-center sm:right-2 sm:h-[124%] sm:w-[46%]"
+          className="hero-art"
           src={heroProducts}
           alt=""
           aria-hidden="true"
@@ -163,7 +155,10 @@ export function HomePage({
           style={{ color: 'var(--faint)' }}
         >
           <Search className="shrink-0" size={20} />
-          <span className="truncate text-sm">{t('home.searchPlaceholder')}</span>
+          <span className="min-w-0 flex-1 truncate text-sm">{t('home.searchPlaceholder')}</span>
+          <span className="search-trigger__filter" aria-hidden="true">
+            <SlidersHorizontal size={19} />
+          </span>
         </button>
       </section>
 
@@ -202,40 +197,29 @@ export function HomePage({
           : defaultHero}
       </section>
 
-      {/* Asosiy yo'nalishlar — yirik kartalar (birinchisi va Setlar keng).
-          Foto qo'yish uchun: MAIN_LINES dagi `image` maydonini to'ldiring
-          (src/config/categories.ts) — gradient o'rniga rasm ko'rinadi. */}
-      <section className="px-5 pt-8 sm:px-10">
-        <h2 className="section-title mb-4" data-reveal>{t('home.lines')}</h2>
-        <div className="line-grid">
+      {/* Asosiy yo'nalishlar — gorizontal kartochkalar: nomi chapda,
+          rasm yoki ikonka o'ngda. Foto qo'yish uchun: MAIN_LINES dagi
+          `image` maydonini to'ldiring (src/config/categories.ts). */}
+      <section className="pt-7">
+        <div className="section-head px-5 sm:px-10" data-reveal>
+          <h2 className="section-title">{t('home.lines')}</h2>
+          <button onClick={() => onNavigate('catalog')} className="see-all">{t('home.seeAll')}</button>
+        </div>
+        <div className="cat-row scrollbar-none">
           {MAIN_LINES.map((line, index) => {
             const Icon = categoryIcon(line.icon, line.name)
             return (
               <button
                 key={line.name}
                 onClick={() => onOpenCategory(line.name)}
-                className={'line-card' + (index === 0 || line.wide ? ' line-card--wide' : '') + (line.name === PROMO_LINE && line.image ? ' line-card--promo' : '')}
+                className="cat-chip"
                 data-reveal
-                style={{
-                  ...(line.image ? { backgroundImage: `url(${line.image})` } : { backgroundImage: line.gradient }),
-                  ['--d' as string]: `${index * 90}ms`,
-                }}
+                style={{ ['--d' as string]: `${index * 70}ms` }}
               >
-                {!line.image && (
-                  <Icon className="line-card__icon" size={index === 0 || line.wide ? 128 : 104} aria-hidden="true" />
-                )}
-                {line.name === PROMO_LINE ? (
-                  <>
-                    {/* «Setlar» yozuvi o'rniga — o'quvchi dasturlar uchun nomi qoladi */}
-                    <span className="sr-only">{categoryLabel(line, lang)}</span>
-                    <PromoBadge
-                      top={lang === 'ru' ? 'Наборы' : 'Aksiyadagi set'}
-                      bottom={lang === 'ru' ? 'по акции' : 'mahsulotlar'}
-                    />
-                  </>
-                ) : (
-                  <span className="line-card__title">{categoryLabel(line, lang)}</span>
-                )}
+                <span className="cat-chip__name">{categoryLabel(line, lang)}</span>
+                <span className="cat-chip__media" aria-hidden="true">
+                  {line.image ? <img src={line.image} alt="" loading="lazy" /> : <Icon size={24} />}
+                </span>
               </button>
             )
           })}
@@ -266,47 +250,31 @@ export function HomePage({
         </section>
       )}
 
-      {/* Mashhur mahsulotlar — faqat admin belgilaganlar */}
-      {(loading || popular.length > 0 || products.length === 0) && (
-      <section className="px-5 pb-32 pt-8 sm:px-10">
-        <div className="flex items-center justify-between" data-reveal>
-          <h2 className="section-title">{t('home.popular')}</h2>
-          <button
-            onClick={() => onNavigate('catalog')}
-            className="text-sm font-bold transition hover:opacity-80"
-            style={{ color: 'var(--brand)' }}
-          >
-            {t('home.seeAll')}
-          </button>
+      {/* Mahsulotlar to'ri: admin belgilagan «Mashhur»lar yoki eng yangilari */}
+      <section className="px-5 pb-36 pt-7 sm:px-10">
+        <div className="section-head" data-reveal>
+          <h2 className="section-title">{popular.length > 0 ? t('home.popular') : t('home.newArrivals')}</h2>
+          <button onClick={() => onNavigate('catalog')} className="see-all">{t('home.seeAll')}</button>
         </div>
 
         {loading ? (
           <ProductRowSkeleton />
-        ) : popular.length > 0 ? (
-          <div ref={popularRef} className="mt-5 flex gap-4 overflow-x-auto pb-2 scrollbar-none">
-            {popular.map((product, index) => (
-              <div key={product.id} className="shrink-0" data-reveal style={{ ['--d' as string]: `${Math.min(index, 5) * 70}ms` }}>
-                <ProductCard product={product} compact {...productActions} />
+        ) : featured.length > 0 ? (
+          <div className="home-grid mt-4">
+            {featured.map((product, index) => (
+              <div key={product.id} className="min-w-0" data-reveal style={{ ['--d' as string]: `${Math.min(index, 5) * 70}ms` }}>
+                <ProductCard product={product} {...productActions} />
               </div>
             ))}
           </div>
         ) : (
-          <div
-            className="mt-8 rounded-2xl border border-dashed p-10 text-center"
-            style={{ borderColor: 'var(--line)' }}
-          >
-            <span
-              className="mx-auto grid size-16 place-items-center rounded-full"
-              style={{ background: 'var(--brand-soft)', color: 'var(--brand)' }}
-            >
-              <CookingPot size={30} />
-            </span>
-            <p className="mt-4 font-bold" style={{ color: 'var(--ink-2)' }}>{t('home.emptyTitle')}</p>
+          <div className="empty-card mt-5">
+            <span className="empty-card__icon"><SprayCan size={30} /></span>
+            <p className="mt-4 font-bold" style={{ color: 'var(--ink)' }}>{t('home.emptyTitle')}</p>
             <p className="mt-2 text-sm" style={{ color: 'var(--muted)' }}>{t('home.emptyText')}</p>
           </div>
         )}
       </section>
-      )}
     </>
   )
 }

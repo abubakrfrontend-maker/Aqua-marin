@@ -15,8 +15,8 @@
   --brain-gold: #f2c94c;
   --brain-ice: #8fd3ff;
   --brain-rose: #ff6b7d;
-  --brain-display: 'Archivo Black', 'Arial Black', Impact, sans-serif;
-  --brain-body: 'Montserrat', 'Segoe UI', system-ui, sans-serif;
+  --brain-display: 'Space Grotesk', 'Arial Black', Impact, sans-serif;
+  --brain-body: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
   --brain-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
 
   position: relative;

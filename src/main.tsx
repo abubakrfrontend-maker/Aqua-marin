@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles.css'
+import './aqua-ui.css'
 import App from './App'
 import { TelegramGate } from './components/ui/TelegramGate'
 import { I18nProvider } from './i18n'

@@ -330,6 +330,19 @@ export function useShopStore() {
             bundle: parts.map((p, i) => ({ productId: String(p.id), quantity: i + 1, name: p.name })),
           }, ...fbProducts]
         }
+        // Faqat dev (`?productDemo`): baza bo'sh bo'lsa — dizaynni ko'rish uchun namuna mahsulotlar
+        if (import.meta.env.DEV && new URLSearchParams(location.search).has('productDemo') && fbProducts.length === 0) {
+          const demo = (id: number, name: string, category: string, price: number, sizes: string[], extra: Partial<Product> = {}): Product => ({
+            id, name, category, price, sizes, images: ['/favicon-512.png'], rating: 4.8, reviews: 12, stock: 20,
+            description: 'Namuna mahsulot — faqat lokal dizayn sinovi uchun.', ...extra,
+          })
+          fbProducts = [
+            demo(900004, 'Kir yuvish geli Aqua Marin', 'Kir yuvish vositalari', 42000, ['1 L', '2 L', '3 L'], { oldPrice: 48000, discount: '-12%' }),
+            demo(900003, 'Idish yuvish vositasi limon', 'Idish yuvish vositalari', 18000, ['500 ml', '1 L']),
+            demo(900002, 'Pol yuvish vositasi dengiz shabadasi', 'Uy tozalash vositalari', 26000, ['1 L']),
+            demo(900001, 'Oyna tozalagich spreyi', 'Uy tozalash vositalari', 21000, ['500 ml']),
+          ]
+        }
         setProducts(fbProducts)
         setLoading(false)
       },

@@ -18,7 +18,7 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 import firebase_db as db
 
 # --mine uchun: kimning buyurtmalari
-MY_USER_ID = 0  # TODO(AQUA): o'z Telegram ID
+MY_USER_ID = 7203124812
 
 CONFIRM_WORD = "OCHIR"
 

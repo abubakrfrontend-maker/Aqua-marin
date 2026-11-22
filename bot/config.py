@@ -43,7 +43,7 @@ BOT_USERNAME = "aqua_marin_bot"
 # Mijozlar otzivi (rasm + fikr) shu guruhga joylanadi. Bot guruhda a'zo bo'lishi kerak.
 REVIEW_GROUP     = os.environ.get("REVIEW_GROUP", "@aquamarin_group")  # TODO(AQUA)
 REVIEW_GROUP_URL = "https://t.me/aquamarin_group"  # TODO(AQUA)
-ADMIN_IDS: set[int] = set()   # TODO(AQUA): egalar Telegram ID — panel orqali o'chirib bo'lmaydi
+ADMIN_IDS    = {7203124812}  # Egalar — panel orqali o'chirib bo'lmaydi
 # BotFather /setdomain da ham aynan shu domen ko'rsatilgan bo'lishi kerak.
 # Xosting almashsa (masalan Vercel → Railway) — Railway'da MINI_APP_URL o'zgaruvchisi bilan.
 # Vercel domeni

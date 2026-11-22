@@ -27,7 +27,7 @@ async function accessToken() {
       client_email: key.client_email,
       private_key: key.private_key.replace(/\\n/g, '\n'),
     },
-    scopes: ['https://www.googleapis.com/auth/firebase'],
+    scopes: ['https://www.googleapis.com/auth/cloud-platform'],
   })
   const client = await googleAuth.getClient()
   const token = await client.getAccessToken()

@@ -361,6 +361,13 @@ export const ru: Record<TranslationKey, string> = {
   'language.title': 'Выберите язык',
   'language.uz': 'Узбекский',
   'language.ru': 'Русский',
+  'onboarding.chooseLang': 'Выберите язык',
+  'onboarding.title1': 'Чистый дом — с нами.',
+  'onboarding.title2': 'Всегда и везде',
+  'onboarding.start': 'Начать',
+  'onboarding.catalog': 'Смотреть каталог',
+  'onboarding.note': 'Регистрация не нужна — заказы через Telegram',
+  'language.uzc': 'Узбекский (кириллица)',
   'language.changed': 'Язык изменён',
 
   // ── Адреса ──

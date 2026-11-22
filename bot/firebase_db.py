@@ -452,6 +452,9 @@ def get_user_language(user_id: int) -> str | None:
     try:
         snap = db.collection("users").document(str(user_id)).get()
         value = (snap.to_dict() or {}).get("language") if snap.exists else None
+        # "uzc" — ilovadagi kirill yozuvi; bot uchun bu o'zbekcha
+        if value == "uzc":
+            return "uz"
         return value if value in ("uz", "ru") else None
     except Exception as e:
         print(f"[ERR] get_user_language: {e}")

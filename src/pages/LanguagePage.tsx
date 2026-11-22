@@ -28,7 +28,7 @@ export function LanguagePage({ onBack, onNotify }: Props) {
     }
 
     hapticSuccess()
-    onNotify(next === 'ru' ? 'Язык изменён' : "Til o'zgartirildi")
+    onNotify(next === 'ru' ? 'Язык изменён' : next === 'uzc' ? 'Тил ўзгартирилди' : "Til o'zgartirildi")
   }
 
   return (

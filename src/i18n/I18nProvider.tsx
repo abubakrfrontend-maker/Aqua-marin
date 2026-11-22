@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react
 import { uz } from './uz'
 import { setCurrencyLabel } from '../data'
 import {
-  DICTIONARIES, I18nContext, STORAGE_KEY, detectLanguage, interpolate,
+  DICTIONARIES, HTML_LANG, I18nContext, STORAGE_KEY, detectLanguage, interpolate,
   type I18nValue, type Language,
 } from './context'
 
@@ -10,7 +10,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Language>(detectLanguage)
 
   useEffect(() => {
-    document.documentElement.lang = lang
+    document.documentElement.lang = HTML_LANG[lang]
     // formatPrice() hook ishlatolmaydi — valyuta nomini shu yerdan beramiz
     setCurrencyLabel(DICTIONARIES[lang]['common.currency'])
   }, [lang])

@@ -5,7 +5,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { datedNumber } from '../utils/order-label'
 import { formatPrice } from '../data'
-import { useI18n } from '../i18n'
+import { baseLang, useI18n } from '../i18n'
 import { PageTitle } from '../components/layout/PageTitle'
 import type { CourierOrder, CourierOverview } from './api'
 import { clock, openExternal, telHref, timeAgo } from './format'
@@ -187,7 +187,7 @@ export function CourierOrdersPage({
                 numbered={false}
                 focused={stop.item.id === focusId}
                 busy={busyId === stop.item.id}
-                lang={lang}
+                lang={baseLang(lang)}
                 onOpen={onOpen}
                 action={
                   <button
@@ -206,7 +206,7 @@ export function CourierOrdersPage({
 
         {data && tab === 'active' && (
           <>
-            {activePlan.stops.length > 0 && <RouteCard stops={activePlan.stops} totalKm={activePlan.totalKm} lang={lang} />}
+            {activePlan.stops.length > 0 && <RouteCard stops={activePlan.stops} totalKm={activePlan.totalKm} lang={baseLang(lang)} />}
             {activePlan.stops.length > 0 && <p className="crr-swipe-hint">{t('courier.swipeHint')}</p>}
             <StopList
               stops={activePlan.stops}
@@ -236,7 +236,7 @@ export function CourierOrdersPage({
                   numbered
                   focused={stop.item.id === focusId}
                   busy={busyId === stop.item.id}
-                  lang={lang}
+                  lang={baseLang(lang)}
                   onOpen={onOpen}
                   action={
                     <div className="grid gap-2">
@@ -269,7 +269,7 @@ export function CourierOrdersPage({
           data.done.length ? (
             <div className="grid gap-3">
               {data.done.map((order, index) => (
-                <OrderCard key={order.id} order={order} index={index} numbered={false} focused={false} busy={false} lang={lang} onOpen={onOpen} />
+                <OrderCard key={order.id} order={order} index={index} numbered={false} focused={false} busy={false} lang={baseLang(lang)} onOpen={onOpen} />
               ))}
             </div>
           ) : (

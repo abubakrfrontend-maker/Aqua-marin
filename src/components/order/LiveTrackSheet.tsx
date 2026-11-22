@@ -3,7 +3,7 @@ import { datedNumber } from '../../utils/order-label'
 import { ChevronLeft, Crosshair, Info, MapPin, MapPinned, Phone, Radio, Receipt } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { MapContainer, Marker, Polyline, TileLayer, useMap } from 'react-leaflet'
-import { useI18n, type TranslationKey } from '../../i18n'
+import { baseLang, useI18n, type TranslationKey } from '../../i18n'
 import { TRACKING_FRESH_MS, TRACKING_HIDE_MS, liveMinutes, remainingKm, useOrderTracking } from '../../lib/tracking'
 import { formatKm, type Point } from '../../courier/route'
 import type { Order } from '../../types/domain'
@@ -202,7 +202,7 @@ export default function LiveTrackSheet({ order, onClose, onReceipt }: Props) {
                   )}
                 </span>
                 <span className="block truncate text-xs" style={{ color: 'var(--faint)' }}>
-                  {datedNumber(order.orderNumber, order.orderDay, order.createdAt)}{km !== null && !arrived ? ` · ${fresh ? '' : '~'}${formatKm(km, lang)}` : ''}
+                  {datedNumber(order.orderNumber, order.orderDay, order.createdAt)}{km !== null && !arrived ? ` · ${fresh ? '' : '~'}${formatKm(km, baseLang(lang))}` : ''}
                 </span>
               </>
             ) : (
@@ -234,10 +234,10 @@ export default function LiveTrackSheet({ order, onClose, onReceipt }: Props) {
             <>
               <Radio size={14} className="shrink-0" />
               {fresh
-                ? t('delivery.updated', { s: agoText(seconds, lang) })
+                ? t('delivery.updated', { s: agoText(seconds, baseLang(lang)) })
                 : lost
-                  ? t('delivery.lost', { ago: agoText(seconds, lang) })
-                  : t('delivery.staleAgo', { ago: agoText(seconds, lang) })}
+                  ? t('delivery.lost', { ago: agoText(seconds, baseLang(lang)) })
+                  : t('delivery.staleAgo', { ago: agoText(seconds, baseLang(lang)) })}
             </>
           ) : (
             t('delivery.noLocation')

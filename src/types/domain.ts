@@ -265,7 +265,7 @@ export type UserProfile = {
   contactName?: string
   addresses: Address[]
   /** Tanlangan til — qurilmalar orasida sinxron bo'lishi uchun. */
-  language?: 'uz' | 'ru'
+  language?: 'uz' | 'uzc' | 'ru'
   /** Bonus karta balansi (so'm). Faqat server yozadi (api/_lib/actions/wallet.ts). */
   walletBalance?: number
   /** Bonus qachongacha amal qiladi (ISO). O'tgan bo'lsa — balans ishlatilmaydi. */

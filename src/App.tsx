@@ -6,6 +6,8 @@ import { CartDrawer } from './components/cart/CartDrawer'
 import { CartPrompt } from './components/cart/CartPrompt'
 import { AddressPrompt } from './components/address/AddressPrompt'
 import { SplashAd } from './components/promo/SplashAd'
+import { Onboarding } from './components/onboarding/Onboarding'
+import { shouldShowOnboarding } from './components/onboarding/onboarding-state'
 import { FreeDeliverySheet } from './components/promo/FreeDeliveryTimer'
 import { enableTimerDemo, loadTimerConfig, startTimerIfDue } from './lib/delivery-timer'
 import { useTimerEnabled } from './hooks/use-delivery-timer'
@@ -148,8 +150,13 @@ function App() {
   // Qaysi ovoz — sozlamadan (use-shop-store → subscribeToVoices). Fonga ketib
   // qayta ochilganda ham — «har ochilganda» rejimida
   useEffect(() => watchWelcomeReturns(() => pageRef.current === 'home'), [])
+  // Yangi foydalanuvchi: til tanlash va xush kelibsiz ekrani (bir marta)
+  const [onboarding, setOnboarding] = useState(shouldShowOnboarding)
+  const onboardingRef = useRef(onboarding)
+  useEffect(() => { onboardingRef.current = onboarding }, [onboarding])
   const introDone = useCallback(() => {
-    if (pageRef.current === 'home') playWelcomeVoice()
+    // Onboarding ochiq bo'lsa kirish ovozi ijro etilmaydi
+    if (pageRef.current === 'home' && !onboardingRef.current) playWelcomeVoice()
   }, [])
 
   /*
@@ -543,6 +550,15 @@ function App() {
           />
         )}
       </div>
+
+      {onboarding && (
+        <Onboarding
+          onDone={(target) => {
+            setOnboarding(false)
+            if (target === 'catalog') shop.navigate('catalog')
+          }}
+        />
+      )}
     </main>
   )
 }

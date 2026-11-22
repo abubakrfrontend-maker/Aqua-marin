@@ -1,0 +1,166 @@
+/* ══════════ Onboarding (yangi foydalanuvchi) ══════════
+   Referens bilan 1:1 — o'lchamlar va ranglar referens skrinshotidan
+   olingan (844px balandlikdagi ekranga proporsional):
+   yorqin ko'k gradient, qora asosiy tugma, och kulrang ikkinchi tugma,
+   SF/Inter shrift, o'rta qalinlikdagi sarlavha. */
+.ob {
+  position: fixed;
+  inset: 0;
+  /* Ochilish animatsiyasi (splash) — undan pastda, qolgan hamma narsadan tepada */
+  z-index: 2147482000;
+  overflow: hidden;
+  background: #ffffff;
+  color: #111111;
+  font-family: "Inter", -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  transition: opacity 0.32s ease, transform 0.32s ease;
+}
+.ob--leaving { opacity: 0; transform: scale(1.02); pointer-events: none; }
+
+.ob-screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  animation: obFade 0.45s ease both;
+}
+@keyframes obFade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── 1-ekran: til tanlash ── */
+.ob-lang {
+  background: linear-gradient(180deg, #02327f 0%, #013a95 18%, #0042ab 36%, #0049b9 48%, #1a5dc2 58%, #3d74c6 68%, #6f93cb 78%, #a9b8cf 88%, #cfd2d8 100%);
+}
+.ob-lang__brand {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 600;
+  white-space: nowrap;
+  filter: blur(6px);
+  opacity: 0.8;
+}
+.ob-lang__brand img { width: 44px; height: 44px; border-radius: 50%; }
+
+.ob-sheet {
+  position: absolute;
+  left: 21px;
+  right: 21px;
+  bottom: calc(24px + var(--safe-bottom, 0px));
+  border-radius: 26px;
+  padding: 24px 20px 18px;
+  background: #ffffff;
+  animation: obSheetUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+@keyframes obSheetUp { from { transform: translateY(120%); } to { transform: none; } }
+.ob-sheet__title {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1c1c1e;
+}
+.ob-sheet__list {
+  display: flex;
+  flex-direction: column;
+  margin: 18px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ob-sheet__item {
+  width: 100%;
+  height: 50px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #1c1c1e;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+.ob-sheet__item:hover { background: #f3f3f5; }
+.ob-sheet__item:active { transform: scale(0.98); background: #ececef; }
+
+/* ── 2-ekran: xush kelibsiz ── */
+.ob-welcome {
+  background: linear-gradient(180deg, #003fbd 0%, #0050d6 14%, #005fe8 26%, #1a6ff0 33%, #6ea4f3 40%, #c5dbfa 45%, #ffffff 50%);
+}
+.ob-welcome__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-top: calc(var(--safe-top, 0px) + 46px);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.ob-welcome__brand img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #ffffff;
+}
+.ob-welcome__art {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 44px 0;
+}
+.ob-art {
+  width: 100%;
+  max-width: 320px;
+  max-height: 100%;
+  animation: obFloat 4.5s ease-in-out infinite;
+}
+@keyframes obFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.ob-welcome__bottom {
+  display: flex;
+  flex-direction: column;
+  padding: 0 28px calc(26px + var(--safe-bottom, 0px));
+  animation: obUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+@keyframes obUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.ob-title {
+  margin: 0 0 30px;
+  text-align: center;
+  font-family: inherit;
+  font-size: 29px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: #111111;
+}
+.ob-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+.ob-btn:active { transform: scale(0.98); }
+.ob-btn + .ob-btn { margin-top: 10px; }
+.ob-btn--primary { background: #141414; color: #ffffff; }
+.ob-btn--secondary { background: #ebebeb; color: #111111; }
+.ob-note {
+  margin: 26px auto 0;
+  max-width: 300px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #8a8a8e;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ob-art, .ob-sheet, .ob-welcome__bottom, .ob-screen { animation: none; }
+}

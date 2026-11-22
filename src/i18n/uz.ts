@@ -368,6 +368,13 @@ export const uz = {
   'language.title': 'Tilni tanlang',
   'language.uz': "O'zbekcha",
   'language.ru': 'Ruscha',
+  'onboarding.chooseLang': 'Tilni tanlang',
+  'onboarding.title1': 'Toza uy — biz bilan.',
+  'onboarding.title2': 'Har doim, har joyda',
+  'onboarding.start': 'Boshlash',
+  'onboarding.catalog': "Katalogni ko'rish",
+  'onboarding.note': "Ro'yxatdan o'tish shart emas — buyurtmalar Telegram orqali",
+  'language.uzc': 'O‘zbekcha (kirill)',
   'language.changed': "Til o'zgartirildi",
 
   // ── Manzillar ──

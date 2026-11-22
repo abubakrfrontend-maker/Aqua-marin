@@ -1,0 +1,42 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented code leveraged by Istanbul
+coverage
+
+# Dependency directories
+node_modules/
+
+# Production build
+dist/
+
+# Firebase private keys
+*-firebase-adminsdk-*.json
+*.pem
+
+# Environment variables
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+
+# Bot: yozilmay qolgan START navbati
+bot/pending_starts.jsonl
+
+# Railway server bundle
+server-dist/
+railway.env
+
+# Vercel
+.vercel/
+vercel.env

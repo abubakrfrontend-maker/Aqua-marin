@@ -1,0 +1,187 @@
+/* Bonus karta — profil tepasida (WalletCard.tsx) */
+
+.wcard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 2.5rem);
+  max-width: 440px;
+  aspect-ratio: 1.586;
+  margin: 1.5rem 1.25rem 0;
+  padding: 1.1rem 1.25rem;
+  overflow: hidden;
+  border-radius: 22px;
+  text-align: left;
+  color: #fff;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgb(255 212 59 / 0.35) 0%, transparent 45%),
+    radial-gradient(90% 80% at 0% 100%, rgb(20 96 168 / 0.55) 0%, transparent 60%),
+    linear-gradient(135deg, #0b355c 0%, #072139 55%, #030f1a 100%);
+  box-shadow: 0 18px 40px rgb(3 22 40 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.18);
+  transform-style: preserve-3d;
+  animation: wcardIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  transition: transform 0.2s ease;
+}
+.wcard:active { transform: scale(0.985); }
+@media (min-width: 640px) { .wcard { margin-left: 2.5rem; margin-right: 2.5rem; } }
+
+/* Yaltirash va naqsh */
+.wcard__shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.22) 48%, transparent 60%);
+  transform: translateX(-120%);
+  animation: wcardShine 4.5s ease-in-out 1s infinite;
+  pointer-events: none;
+}
+.wcard__rings {
+  position: absolute;
+  right: -30%;
+  bottom: -55%;
+  width: 95%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgb(255 226 122 / 0.18);
+  box-shadow: 0 0 0 26px rgb(255 226 122 / 0.05), 0 0 0 52px rgb(255 226 122 / 0.035);
+  pointer-events: none;
+}
+
+.wcard__top, .wcard__mid, .wcard__bottom { position: relative; display: flex; align-items: center; justify-content: space-between; }
+.wcard__brand { display: flex; align-items: center; gap: 0.45rem; }
+.wcard__brand img { width: 30px; height: 30px; border-radius: 9px; box-shadow: 0 3px 10px rgb(0 0 0 / 0.3); }
+.wcard__brand b { font-family: "Archivo Black", "Montserrat", sans-serif; font-size: 1.05rem; letter-spacing: 0.06em; }
+.wcard__title {
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #ffe27a;
+}
+
+.wcard__mid { margin-top: 0.9rem; justify-content: flex-start; gap: 0.6rem; }
+.wcard__chip svg { display: block; width: 40px; height: 31px; }
+.wcard__chip rect { fill: #e9c24f; stroke: #b98c12; stroke-width: 1.5; }
+.wcard__chip path { fill: none; stroke: #9b7406; stroke-width: 1.3; opacity: 0.7; }
+.wcard__chip { filter: drop-shadow(0 2px 3px rgb(0 0 0 / 0.3)); background: linear-gradient(135deg, #fff1b8, #e9c24f 45%, #c99a1c); border-radius: 7px; }
+.wcard__wave { width: 22px; height: 22px; fill: none; stroke: rgb(255 255 255 / 0.75); stroke-width: 1.8; stroke-linecap: round; }
+
+.wcard__balance { position: relative; display: block; margin-top: auto; }
+.wcard__balance small { display: block; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; }
+.wcard__balance b {
+  display: block;
+  font-family: "Archivo Black", "Montserrat", sans-serif;
+  font-size: clamp(1.7rem, 8vw, 2.15rem);
+  line-height: 1.1;
+  background: linear-gradient(180deg, #fff6d0 0%, #ffd43b 60%, #e9a800 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.25));
+}
+
+.wcard__number {
+  position: relative;
+  margin-top: 0.45rem;
+  font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, monospace;
+  font-size: clamp(0.95rem, 4.6vw, 1.12rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgb(255 255 255 / 0.92);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+.wcard__bottom { margin-top: 0.35rem; gap: 0.75rem; }
+.wcard__holder { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; opacity: 0.85; }
+.wcard__valid { flex-shrink: 0; display: flex; align-items: center; gap: 0.35rem; font-family: ui-monospace, "SF Mono", "Roboto Mono", Menlo, monospace; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; }
+.wcard__valid small { font-family: "Montserrat", sans-serif; font-size: 0.42rem; font-weight: 800; line-height: 1.05; letter-spacing: 0.08em; width: 3.4em; opacity: 0.75; }
+.wcard__expired { flex-shrink: 0; padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.62rem; font-weight: 800; color: #fff; background: rgb(232 69 60 / 0.85); }
+
+.wcard-hint { margin: 0.45rem 1.25rem 0; font-size: 0.72rem; font-weight: 700; color: var(--muted); text-align: center; }
+@media (min-width: 640px) { .wcard-hint { margin-left: 2.5rem; margin-right: 2.5rem; max-width: 440px; } }
+
+@keyframes wcardIn { from { opacity: 0; transform: translateY(18px) rotateX(18deg) scale(0.96); } to { opacity: 1; transform: none; } }
+@keyframes wcardShine { 0%, 55% { transform: translateX(-120%); } 85%, 100% { transform: translateX(120%); } }
+
+/* «Qanday ishlatiladi» oynasi */
+.wl-sheet__coin { width: 64px; height: 64px; margin: 0 auto; display: grid; place-items: center; border-radius: 20px; font-size: 32px; background: var(--brand-soft); }
+.wl-sheet__title { margin-top: 0.75rem; font-size: 1.25rem; font-weight: 800; color: var(--ink); }
+.wl-sheet__balance { margin-top: 0.15rem; font-family: "Archivo Black", "Montserrat", sans-serif; font-size: 1.9rem; color: var(--brand); }
+.wl-sheet__sub { margin-top: 0.15rem; font-size: 0.85rem; color: var(--muted); }
+.wl-steps { margin: 1.1rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.55rem; text-align: left; }
+.wl-steps li { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 0.85rem; border-radius: 16px; background: var(--surface-2, var(--brand-soft)); font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+.wl-steps span { flex-shrink: 0; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-weight: 900; font-size: 0.85rem; color: #3a2600; background: linear-gradient(135deg, #ffe680, #ffc933); }
+.wl-until { display: flex; align-items: center; justify-content: center; gap: 0.35rem; margin-top: 0.85rem; padding: 0.55rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 800; color: #8a5a00; background: #fff4d6; }
+.wl-note { display: flex; align-items: center; justify-content: center; gap: 0.35rem; margin-top: 0.85rem; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+
+/* Rasmiylashtirish: «Bonus kartadan ishlatish» */
+.wl-use {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  text-align: left;
+  background: var(--surface);
+  transition: border-color 0.2s, background 0.2s;
+}
+.wl-use.is-on { border-color: var(--success, var(--brand)); background: var(--brand-soft); }
+.wl-use__icon { display: grid; place-items: center; width: 40px; height: 28px; flex-shrink: 0; border-radius: 6px; background: linear-gradient(135deg, #0b355c, #030f1a); box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.2); }
+.wl-use__icon i { width: 12px; height: 9px; border-radius: 2px; background: linear-gradient(135deg, #fff1b8, #e9c24f); }
+.wl-use b { display: block; font-size: 0.88rem; color: var(--ink); }
+.wl-use small { display: block; font-size: 0.72rem; color: var(--muted); }
+.wl-use.is-off { opacity: 0.6; }
+.wl-terms { margin: -0.4rem 0 0.75rem; padding: 0 0.35rem; font-size: 0.7rem; font-weight: 600; line-height: 1.35; color: var(--muted); }
+.wl-terms--warn { color: var(--danger); font-weight: 700; }
+.wl-switch { position: relative; flex-shrink: 0; width: 44px; height: 24px; border-radius: 999px; background: var(--line); transition: background 0.2s; }
+.wl-switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: var(--surface); box-shadow: var(--shadow-sm); transition: left 0.2s; }
+.wl-use.is-on .wl-switch { background: var(--brand); }
+.wl-use.is-on .wl-switch::after { left: 22px; }
+
+/* ── «Tasdiqlab olish» (qulfdagi karta) ── */
+.wcard--locked { animation: wcardIn 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.2) both, wcardGlow 2.4s ease-in-out 0.8s infinite; }
+.wcard--locked .wcard__balance b { filter: drop-shadow(0 2px 6px rgb(0 0 0 / 0.25)) drop-shadow(0 0 14px rgb(255 212 59 / 0.45)); }
+.wcard__lock { padding: 0.22rem 0.6rem; border-radius: 999px; font-size: 0.6rem; font-weight: 900; letter-spacing: 0.1em; color: #3a2600; background: linear-gradient(135deg, #fff1b8, #ffd43b); box-shadow: 0 3px 10px rgb(0 0 0 / 0.25); }
+@keyframes wcardGlow { 0%, 100% { box-shadow: 0 18px 40px rgb(3 22 40 / 0.35), 0 0 0 0 rgb(255 212 59 / 0); } 50% { box-shadow: 0 18px 40px rgb(3 22 40 / 0.35), 0 0 0 6px rgb(255 212 59 / 0.35); } }
+
+.wl-claim-btn {
+  display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+  width: calc(100% - 2.5rem); max-width: 440px; height: 3.1rem; margin: 0.75rem 1.25rem 0;
+  border-radius: 16px; font-weight: 900; font-size: 1rem; color: #3a2600;
+  background: linear-gradient(180deg, #fff1b8 0%, #ffd43b 55%, #e9a800 100%);
+  box-shadow: 0 10px 24px rgb(233 168 0 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.6);
+  animation: wlPulse 1.6s ease-in-out infinite;
+}
+.wl-claim-btn:active { transform: scale(0.98); }
+@media (min-width: 640px) { .wl-claim-btn { margin-left: 2.5rem; margin-right: 2.5rem; } }
+@keyframes wlPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025); } }
+
+.wl-claim__gift { width: 72px; height: 72px; margin: 0 auto; display: grid; place-items: center; border-radius: 22px; font-size: 40px; background: linear-gradient(135deg, #fff1b8, #ffd43b); animation: wlGift 1.8s ease-in-out infinite; }
+@keyframes wlGift { 0%, 100% { transform: rotate(-6deg) scale(1); } 50% { transform: rotate(6deg) scale(1.06); } }
+.wl-tasks { margin: 1rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.55rem; text-align: left; }
+.wl-task { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.7rem 0.65rem 0.75rem; border-radius: 16px; background: var(--surface-2, var(--brand-soft)); border: 1.5px solid transparent; transition: border-color 0.2s, background 0.2s; }
+.wl-task.is-bad { border-color: #e8453c; background: rgb(232 69 60 / 0.08); animation: wlShake 0.4s ease; }
+.wl-task.is-done { border-color: rgb(67 139 206 / 0.6); }
+.wl-task__icon { flex-shrink: 0; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: #fff; background: #229ed9; }
+.wl-task--group .wl-task__icon { background: #2aabee; }
+.wl-task--instagram .wl-task__icon { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.wl-task__text { min-width: 0; flex: 1; display: grid; }
+.wl-task__text b { font-size: 0.9rem; font-weight: 800; color: var(--ink); }
+.wl-task__text small { font-size: 0.75rem; font-weight: 600; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wl-task.is-bad .wl-task__text small { color: #e8453c; font-weight: 800; }
+.wl-task__btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 0.25rem; height: 2.2rem; padding: 0 0.85rem; border-radius: 999px; font-size: 0.8rem; font-weight: 800; color: #fff; background: var(--brand); }
+.wl-task.is-done .wl-task__btn { color: var(--brand); background: transparent; box-shadow: inset 0 0 0 1.5px var(--brand); }
+@keyframes wlShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+.wl-claim__error { margin-top: 0.75rem; font-size: 0.82rem; font-weight: 700; color: #e8453c; }
+.wl-claim__hint { margin-top: 0.55rem; font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+
+/* Olindi — konfetti va sanoq */
+.wl-won { position: relative; }
+.wl-confetti { position: absolute; inset: -1.5rem -1rem auto; height: 26rem; overflow: hidden; pointer-events: none; }
+.wl-confetti i { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; opacity: 0; animation-name: wlFall; animation-timing-function: cubic-bezier(0.3, 0.6, 0.5, 1); animation-fill-mode: forwards; }
+@keyframes wlFall { 0% { opacity: 1; transform: translate(0, 0) rotate(0); } 100% { opacity: 0; transform: translate(var(--dx), 26rem) rotate(calc(var(--r) + 540deg)); } }
+.wl-won__coin { width: 84px; height: 84px; margin: 0.25rem auto 0; display: grid; place-items: center; border-radius: 26px; font-size: 46px; background: linear-gradient(135deg, #fff1b8, #ffd43b 55%, #e9a800); box-shadow: 0 12px 30px rgb(233 168 0 / 0.4); animation: wlPop 0.7s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+@keyframes wlPop { 0% { transform: scale(0.2) rotate(-30deg); opacity: 0; } 100% { transform: none; opacity: 1; } }
+.wl-won__title { margin-top: 0.8rem; font-size: 1.35rem; font-weight: 900; color: var(--ink); }
+.wl-won__sum { margin-top: 0.1rem; font-family: "Archivo Black", "Montserrat", sans-serif; font-size: 2.4rem; line-height: 1.1; color: var(--brand); }
+@media (prefers-reduced-motion: reduce) { .wcard--locked, .wl-claim-btn, .wl-claim__gift { animation: none; } .wl-confetti { display: none; } }

@@ -1,0 +1,233 @@
+/**
+ * Konkurs: ishtirokchilar, do'st takliflari, tanlov va g'oliblarga xabar.
+ *   node --experimental-strip-types --no-warnings --import ./scripts/testing/register.mjs ./scripts/testing/giveaway.test.ts
+ */
+export {}
+const g = globalThis as any
+const { giveawayBoard, giveawayBoardSafe, giveawayOffline, giveawayConfirm, giveawayDraw, giveawayExclude, giveawayGet, giveawaySave, giveawayUndo } = await import('../../api/_lib/actions/giveaway.ts')
+
+const failures: string[] = []
+function check(name: string, cond: boolean, extra: unknown = '') {
+  console.log((cond ? 'OK   ' : 'XATO ') + name + (cond ? '' : '  -> ' + JSON.stringify(extra).slice(0, 400)))
+  if (!cond) failures.push(name)
+}
+const admin = { uid: 'a', email: 'a@aquamarin.uz', name: 'Ega', role: 'owner', active: true } as any
+const START = '2026-10-24T00:00:00.000Z'
+const ev = (id: number, at: string, source = 'organic', isNewUser = false) => ({ telegramUserId: id, source, isNewUser, createdAt: at })
+
+function seed() {
+  g.__sent = []
+  g.__blocked = [303]
+  g.__data = {
+    'users/101': { id: 101, first_name: 'Aziza', username: 'aziza', language: 'uz', lastActive: '2026-10-24' },
+    'users/202': { id: 202, first_name: 'Bobur', language: 'ru', lastActive: '2026-10-24' },
+    'users/303': { id: 303, first_name: 'Jasur', username: 'jasur' },
+    'users/404': { id: 404, first_name: 'Do‘st1', lastActive: '2026-10-25' },
+    'users/405': { id: 405, first_name: 'Do‘st2', visitCount: 2 },
+    'users/406': { id: 406, first_name: 'Soxta' },
+    'users/999': { id: 999, first_name: 'Eski' },
+    // Konkursdan OLDIN — hisoblanmaydi
+    'start_events/e0': ev(999, '2026-10-23T10:00:00.000+00:00'),
+    'start_events/e1': ev(101, '2026-10-24T08:00:00.000+00:00', 'insta', true),
+    'start_events/e2': ev(101, '2026-10-24T09:00:00.000+00:00'),
+    'start_events/e3': ev(202, '2026-10-24T10:00:00.000+00:00', 'organic', false),
+    'start_events/e4': ev(303, '2026-10-24T11:00:00.000+00:00', 'blog_food', true),
+    // Aziza taklif qilgan: 2 ta haqiqiy yangi do'st, 1 ta mini app ochmagan
+    'start_events/e5': ev(404, '2026-10-25T08:00:00.000+00:00', 'ref_101', true),
+    'start_events/e6': ev(405, '2026-10-25T09:00:00.000+00:00', 'ref_101', true),
+    'start_events/e7': ev(406, '2026-10-25T10:00:00.000+00:00', 'ref_101', true),
+    // Eski foydalanuvchi taklif havolasidan kirgan — hisoblanmaydi
+    'start_events/e8': ev(999, '2026-10-25T11:00:00.000+00:00', 'ref_101', false),
+    // O'zini o'zi taklif — hisoblanmaydi
+    'start_events/e9': ev(202, '2026-10-25T12:00:00.000+00:00', 'ref_202', true),
+  }
+}
+
+seed()
+let threw = ''
+try { await giveawaySave(admin, { title: 'Konkurs', startAt: '' }) } catch (e) { threw = (e as Error).message }
+check('boshlanish vaqtisiz saqlanmaydi', threw.includes('Boshlanish'))
+
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', prize: 'Sog‘lom O‘quv Mavsumi seti', startAt: START, winners: 3, referral: { enabled: true } })
+check('mini app uchun ochiq qismi yozildi', g.__data['settings/giveaway']?.referral === true && g.__data['settings/giveaway']?.startAt === START)
+
+let s = await giveawayGet()
+const by = (id: string) => s.participants.find((p: any) => p.id === id)
+check('konkursdan oldingi START hisoblanmadi', !by('999') || by('999').starts === 1, by('999'))
+check('Aziza: 2 START, 3 ta taklif (ilova ochish shart emas) → 4 imkoniyat', by('101')?.starts === 2 && by('101')?.refs === 3 && by('101')?.tickets === 4, by('101'))
+check('o‘zini taklif qilish hisoblanmadi', by('202')?.refs === 0 && by('202')?.tickets === 1, by('202'))
+check('ism va @username', by('101')?.name === 'Aziza' && by('101')?.username === 'aziza')
+check('ishtirokchilar soni (do‘stlar ham START bosgan)', s.stats.people === 7, s.stats)
+
+// Taklif o'chirilsa — hamma 1 imkoniyat
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', startAt: START, winners: 3, referral: { enabled: false } })
+s = await giveawayGet()
+check('taklif o‘chiq — Aziza 1 imkoniyat', by('101')?.tickets === 1)
+// Cheklov yo'q: 25 ta haqiqiy do'st — 26 imkoniyat
+for (let i = 0; i < 25; i++) {
+  g.__data[`users/7${i}0`] = { id: Number(`7${i}0`), first_name: 'D' + i, lastActive: '2026-10-25' }
+  g.__data[`start_events/r${i}`] = ev(Number(`7${i}0`), '2026-10-25T13:00:00.000+00:00', 'ref_202', true)
+}
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', prize: 'Sog‘lom O‘quv Mavsumi seti', startAt: START, winners: 3, referral: { enabled: true } })
+s = await giveawayGet()
+check('cheklovsiz: Bobur 25 do‘st → 26 imkoniyat', by('202')?.refs === 25 && by('202')?.tickets === 26, by('202'))
+for (let i = 0; i < 25; i++) { delete g.__data[`users/7${i}0`]; delete g.__data[`start_events/r${i}`] }
+g.__data['giveaways/current'].board = null
+delete g.__data['giveaway_cache/agg']
+s = await giveawayGet()
+
+// Chiqarish
+await giveawayExclude(admin, { id: '406' })
+s = await giveawayGet()
+check('chiqarilgan ishtirokchi belgilandi', by('406')?.excluded === true && s.stats.people === 6)
+check('chiqarilgan (soxta) do‘st taklif sifatida hisoblanmaydi — Aziza 3', by('101')?.refs === 2 && by('101')?.tickets === 3, by('101'))
+
+// Admin bonusi (sababi bilan) — imkoniyatga qo'shiladi va jadvalda ko'rinadi
+g.__data['giveaways/current'].bonus = { '202': { points: 11, reason: 'Hisoblanmay qolgan takliflar', by: 'Ega', at: 'x' } }
+s = await giveawayGet()
+check('bonus: Bobur 1 + 11 = 12 imkoniyat, sababi bilan', by('202')?.tickets === 12 && by('202')?.bonus === 11 && by('202')?.bonusReason === 'Hisoblanmay qolgan takliflar', by('202'))
+delete g.__data['giveaways/current'].bonus
+
+// ── Bot: reyting va «Konkurs» tugmasi ──
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', prize: 'Sog‘lom O‘quv Mavsumi seti', startAt: START, winners: 3, referral: { enabled: true } })
+const realNow = Date.now
+Date.now = () => Date.parse('2026-10-26T10:00:00Z')
+let b = await giveawayBoard('101')
+check('reyting: Aziza 1-o‘rinda, 3 ochko, 2 do‘st', b.active && b.me?.rank === 1 && b.me.points === 3 && b.me.refs === 2 && b.top[0].name === 'Aziza', b)
+check('reytingda faqat ism (familiyasiz, ID siz)', b.top.every((t: any) => !/ID \d/.test(t.name)))
+b = await giveawayBoard('999')
+check('eski mijoz (START bosmagan) hali ishtirokchi emas... yoki boshqa START bilan', b.me === null || b.me.points >= 1)
+g.__data['users/777'] = { id: 777, first_name: 'Eskimijoz', lastActive: '2026-01-01' }
+b = await giveawayBoard('777')
+check('tugmasiz — 777 ishtirokchi emas', b.me === null)
+b = await giveawayBoard('777', true)
+check('«Konkurs» tugmasi bosildi — ishtirokchi bo‘ldi (kesh yangilandi)', b.me?.points === 1 && g.__data['giveaway_entries/777']?.telegramUserId === 777, b.me)
+const firstAt = g.__data['giveaway_entries/777'].createdAt
+await giveawayBoard('777', true)
+check('qayta bosilsa yozuv o‘zgarmaydi', g.__data['giveaway_entries/777'].createdAt === firstAt)
+Date.now = () => Date.parse('2026-10-20T10:00:00Z')
+b = await giveawayBoard('888', true)
+check('konkurs boshlanmasdan tugma — ishtirok yozilmaydi', !b.active && !g.__data['giveaway_entries/888'])
+Date.now = realNow
+delete g.__data['giveaway_entries/777']
+delete g.__data['users/777']
+g.__data['giveaways/current'].board = null
+await giveawayExclude(admin, { id: '406' })
+
+// Tanlov: takrorlanmaydi, chiqarilgan tanlanmaydi
+const winners = new Set<string>()
+for (let i = 0; i < 3; i++) {
+  const r = await giveawayDraw(admin)
+  winners.add(r.winner.id)
+  check(`${i + 1}-g‘olib barabanda bor`, r.wheel.some((w: any) => w.id === r.winner.id) && r.number === i + 1)
+}
+check('3 ta turli g‘olib, chiqarilgani yo‘q', winners.size === 3 && !winners.has('406'), [...winners])
+threw = ''
+try { await giveawayDraw(admin) } catch (e) { threw = (e as Error).message }
+check('g‘oliblar soni to‘lgach yana tanlanmaydi', threw.includes('aniqlandi'), threw)
+await giveawayUndo()
+s = await giveawayGet()
+check('oxirgisini bekor qilish', s.draws.length === 2)
+await giveawayDraw(admin)
+
+// Adolat: 2000 marta — 3 imkoniyatli odam ~3 barobar ko'p tanlanadi
+g.__data['giveaways/current'].config.winners = 1
+let aziza = 0, bobur = 0
+for (let i = 0; i < 2000; i++) {
+  g.__data['giveaways/current'].draws = []
+  const r = await giveawayDraw(admin)
+  if (r.winner.id === '101') aziza++
+  if (r.winner.id === '202') bobur++
+}
+check('ehtimol imkoniyatga mutanosib (Aziza 3 imk. ≈ 3× Bobur)', aziza / bobur > 2.4 && aziza / bobur < 3.8, { aziza, bobur })
+// Bosqichli tanlov: 1 — reyting 1-o'rni aniq, 2 — TOP-3 (avval yutgansiz), 3 — TOP-100
+// Reyting: Aziza (3) → Bobur → Jasur → Do'st1 → Do'st2 (teng ochkoda kim oldin kelgan)
+const cfg = g.__data['giveaways/current'].config
+await giveawaySave(admin, { ...cfg, rounds: [{ mode: 'top' }, { mode: 'draw', pool: 3 }, { mode: 'draw', pool: 100 }] })
+check('bosqichlar saqlandi, g‘oliblar soni = bosqichlar', g.__data['giveaways/current'].config.rounds?.length === 3 && g.__data['giveaways/current'].config.winners === 3, g.__data['giveaways/current'].config)
+threw = ''
+try { await giveawaySave(admin, { ...cfg, rounds: [{ mode: 'draw', pool: 0 }] }) } catch (e) { threw = (e as Error).message }
+check('TOP soni 0 — saqlanmaydi', threw.includes('TOP'), threw)
+let second = new Set<string>(), firstOk = true
+for (let i = 0; i < 300; i++) {
+  g.__data['giveaways/current'].draws = []
+  const r1 = await giveawayDraw(admin)
+  if (r1.winner.id !== '101' || r1.mode !== 'top' || r1.winner.rank !== 1) firstOk = false
+  const r2 = await giveawayDraw(admin)
+  second.add(r2.winner.id)
+}
+check('barabanda ochko ham bor (bo‘lak kattaligi), 1-sovg‘ada faqat g‘olib', (await (async () => { g.__data['giveaways/current'].draws = []; const a = await giveawayDraw(admin); const b = await giveawayDraw(admin); return a.wheel.length === 1 && b.wheel.length === 2 && b.wheel.every((w: any) => w.tickets === 1) })()))
+check('1-sovg‘a har doim reyting 1-o‘rniga (barabansiz)', firstOk)
+check('2-sovg‘a faqat TOP-3 dan, 1-o‘rin chiqib ketgan', second.size === 2 && second.has('202') && second.has('303'), [...second])
+const r3 = await giveawayDraw(admin)
+const got = g.__data['giveaways/current'].draws
+check('3-sovg‘a TOP-100 dan, takrorlanmaydi', r3.mode === 'draw' && new Set(got.map((d: any) => d.id)).size === 3 && got[2].pool === 100, got)
+threw = ''
+try { await giveawayDraw(admin) } catch (e) { threw = (e as Error).message }
+check('bosqichlar tugagach tanlov yo‘q', threw.includes('aniqlandi'), threw)
+await giveawaySave(admin, { ...cfg, winners: 3, rounds: [] })
+check('bosqichlar o‘chirildi (null)', g.__data['giveaways/current'].config.rounds === null && g.__data['giveaways/current'].config.winners === 3, g.__data['giveaways/current'].config)
+
+g.__data['giveaways/current'].config.winners = 3
+g.__data['giveaways/current'].draws = [
+  { id: '101', name: 'Aziza', username: 'aziza', tickets: 2, at: 'x', by: 'Ega' },
+  { id: '202', name: 'Bobur', username: null, tickets: 1, at: 'x', by: 'Ega' },
+  { id: '303', name: 'Jasur', username: 'jasur', tickets: 1, at: 'x', by: 'Ega' },
+]
+
+// Tasdiqlash
+const c = await giveawayConfirm(admin)
+const msgs = g.__sent.filter((m: any) => m.kind === 'message')
+check('2 ta xabar ketdi, bloklagan 1 ta — xato', c.sent === 2 && c.failed === 1, c)
+check('o‘zbekcha xabar ism va sovg‘a bilan', msgs.find((m: any) => m.chatId === 101)?.text.includes('Tabriklaymiz, Aziza') && msgs.find((m: any) => m.chatId === 101)?.text.includes('Sog‘lom O‘quv Mavsumi seti'))
+check('ruscha foydalanuvchiga ruscha', msgs.find((m: any) => m.chatId === 202)?.text.includes('Поздравляем'))
+threw = ''
+try { await giveawayConfirm(admin) } catch (e) { threw = (e as Error).message }
+check('ikkinchi marta yuborilmaydi', threw.includes('allaqachon') && g.__sent.filter((m: any) => m.kind === 'message').length === 2)
+check('mini app kartasi yopildi', g.__data['settings/giveaway']?.finished === true)
+threw = ''
+try { await giveawayDraw(admin) } catch (e) { threw = (e as Error).message }
+check('tasdiqlangandan keyin tanlov yo‘q', threw.includes('yakunlangan'))
+
+// ── Yig'ma: qayta so'rovda butun jurnal o'qilmaydi (2026-11-09 limit hodisasi) ──
+seed()
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', startAt: START, winners: 3, referral: { enabled: true } })
+for (let i = 0; i < 200; i++) {
+  g.__data[`users/5${i}`] = { id: Number(`5${i}`), first_name: 'U' + i }
+  g.__data[`start_events/big${i}`] = ev(Number(`5${i}`), new Date(Date.parse('2026-10-26T00:00:00Z') + i * 60_000).toISOString(), 'ref_101', true)
+}
+g.__reads = 0
+s = await giveawayGet()
+const fullReads = g.__reads
+check('birinchi qurilish: Aziza 3 + 200 taklif', by('101')?.refs === 203, by('101'))
+g.__reads = 0
+s = await giveawayGet()
+check(`qayta so'rov arzon (${g.__reads} o'qish, birinchisi ${fullReads})`, g.__reads < 20 && fullReads > 200, { now: g.__reads, fullReads })
+check('qayta so‘rovda qayta sanalmadi', by('101')?.refs === 203 && by('101')?.starts === 2, by('101'))
+g.__data['users/6001'] = { id: 6001, first_name: 'Yangi', username: 'yangi' }
+g.__data['start_events/late1'] = ev(6001, '2026-10-26T03:21:00.000+00:00', 'ref_101', true)
+s = await giveawayGet()
+s = await giveawayGet()
+check('yangi START qo‘shildi, bir marta', by('101')?.refs === 204 && by('6001')?.starts === 1 && by('6001')?.username === 'yangi', [by('101'), by('6001')])
+g.__data['giveaway_entries/6002'] = { telegramUserId: 6002, createdAt: '2026-10-26T03:22:00.000Z' }
+s = await giveawayGet()
+check('«Konkurs» tugmasi orqali qo‘shilgan ham bor', by('6002')?.tickets === 1 && by('6002')?.name === 'ID 6002', by('6002'))
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', startAt: START, winners: 3, referral: { enabled: true } })
+check('admin saqlasa yig‘ma tozalanadi', !g.__data['giveaway_cache/agg'])
+
+// ── Baza javob bermasa: oxirgi ro'yxat ──
+seed()
+await giveawaySave(admin, { title: 'Aqua Marin konkursi', prize: 'Set', startAt: START, winners: 3, referral: { enabled: true } })
+await giveawayBoard('101')
+const realGet = g.__data
+let off = await giveawayBoardSafe('101')
+check('baza ishlasa — oddiy javob', !off.stale && off.me?.rank === 1, off)
+Object.defineProperty(g, '__data', { configurable: true, get() { throw new Error('8 RESOURCE_EXHAUSTED: Quota exceeded.') } })
+off = await giveawayBoardSafe('101')
+check('baza xato — oxirgi saqlangan ro‘yxat, Aziza 1-o‘rin', off.stale === true && off.me?.rank === 1 && off.top.length > 0 && off.prize === 'Set', off)
+off = await giveawayBoardSafe('99999')
+check('ro‘yxatda yo‘q — me null, karta baribir', off.stale === true && off.me === null && off.exists, off)
+Object.defineProperty(g, '__data', { configurable: true, writable: true, value: realGet })
+
+console.log('\nNATIJA:', failures.length ? `${failures.length} ta xato` : 'hammasi joyida')
+process.exit(failures.length ? 1 : 0)

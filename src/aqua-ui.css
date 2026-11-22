@@ -59,93 +59,107 @@ h1, h2, h3 { font-family: var(--font-display); }
   color: var(--ink);
 }
 
-/* ── Bosh sahifa karuseli: 3 ta slayd ──
-   Chapda: to'q badge, sarlavha, ichida doira strelkali «pill» tugma.
-   O'ngda: rasm banner tepasidan chiqib turadi (lenta tepasida joy bor).
-   Fon ustida yumshoq to'lqin chiziqlari. */
-.hero-track { padding-top: 26px; margin-top: -26px; }
-.hero-dots { margin-top: 12px; gap: 6px; }
-.hero-dot { width: 7px; height: 7px; background: var(--line); }
-.hero-dot.is-on { width: 26px; background: var(--ink); }
+/* ── Bosh sahifa karuseli — referens bilan 1:1 ──
+   O'lchamlar referensdan (258px karta) 350px ga proporsional olingan:
+   nisbat 1.87:1, radius 22px, badge 24px tepada, sarlavha 17px/500,
+   tugma 44px (ichida 32px doira), rasm o'ng yarmida pastga tegib turadi,
+   nuqtalar pastki chekkadagi sahifa rangidagi kesik ichida.
+   Ranglar: laym → aquamarin, qora → dengiz ko'ki. */
+.hero-carousel { position: relative; }
+.hero-track { gap: 12px; }
+.hero-cell { position: relative; }
+
+/* Pastki o'rtadagi kesik (sahifa foni rangida, silliq yelkalar) */
+.hero-cell::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  z-index: 3;
+  width: 108px;
+  height: 19px;
+  transform: translateX(-50%);
+  background: var(--bg);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 19'%3E%3Cpath d='M0 19C13 19 15 1 30 1H78C93 1 95 19 108 19Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 108 19'%3E%3Cpath d='M0 19C13 19 15 1 30 1H78C93 1 95 19 108 19Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+/* Nuqtalar — kesik ichida */
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  z-index: 4;
+  margin: 0;
+  gap: 5px;
+  transform: translateX(-50%);
+}
+.hero-dot { width: 9px; height: 9px; background: #d8d0c4; }
+.hero-dot.is-on { width: 29px; background: #22c7e0; }
 
 .hs {
-  --hs-bg: #eadcc6;
-  --hs-ink: #082052;
-  --hs-chip-bg: #082052;
-  --hs-chip-ink: #f8f0e5;
   position: relative;
   display: flex;
-  min-height: 172px;
-  overflow: visible;
-  border-radius: 26px;
-  background-color: var(--hs-bg);
-  background-image:
-    radial-gradient(120% 140% at 95% 120%, rgb(255 255 255 / 0.28) 0 18%, transparent 18.4%),
-    radial-gradient(120% 140% at 95% 120%, transparent 0 30%, rgb(255 255 255 / 0.2) 30.4% 31.2%, transparent 31.6%),
-    radial-gradient(120% 140% at 95% 120%, transparent 0 44%, rgb(255 255 255 / 0.16) 44.4% 45.2%, transparent 45.6%),
-    radial-gradient(90% 120% at -10% -20%, rgb(255 255 255 / 0.22) 0 26%, transparent 26.4%);
-  color: var(--hs-ink);
+  aspect-ratio: 1.87;
+  overflow: hidden;
+  border-radius: 22px;
+  background-color: #a9dfe9;
+  /* Fon: o'zidan sal to'qroq katta organik shakllar */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 350 187' preserveAspectRatio='none'%3E%3Cg fill='%23082052' fill-opacity='0.055'%3E%3Cpath d='M-20 -10C40 30 20 90 80 110S170 60 200 -10Z'/%3E%3Cpath d='M150 200C170 140 240 150 260 100S330 40 370 60V200Z'/%3E%3Cpath d='M240 -10C250 30 300 40 330 20S360 -10 370 -10Z'/%3E%3C/g%3E%3Cg fill='none' stroke='%23082052' stroke-opacity='0.05' stroke-width='14'%3E%3Cpath d='M-30 150C30 120 70 170 130 150S210 90 240 120'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  color: #082052;
 }
-.hs--mist { --hs-bg: #d6e1f2; }
-.hs--navy {
-  --hs-bg: #082052;
-  --hs-ink: #f8f0e5;
-  --hs-chip-bg: #f8f0e5;
-  --hs-chip-ink: #082052;
-  background-image:
-    radial-gradient(120% 140% at 95% 120%, rgb(255 255 255 / 0.07) 0 18%, transparent 18.4%),
-    radial-gradient(120% 140% at 95% 120%, transparent 0 30%, rgb(255 255 255 / 0.08) 30.4% 31.2%, transparent 31.6%),
-    radial-gradient(120% 140% at 95% 120%, transparent 0 44%, rgb(255 255 255 / 0.06) 44.4% 45.2%, transparent 45.6%),
-    radial-gradient(90% 120% at -10% -20%, rgb(255 255 255 / 0.06) 0 26%, transparent 26.4%);
-}
-:root[data-theme="dark"] .hs--navy { box-shadow: inset 0 0 0 1px var(--line); }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .hs--navy { box-shadow: inset 0 0 0 1px var(--line); }
-}
-@media (min-width: 640px) { .hs { min-height: 260px; } }
+@media (min-width: 640px) { .hs { aspect-ratio: 2.4; } }
 
 .hs__text {
   position: relative;
   z-index: 2;
   display: flex;
-  width: 60%;
+  width: 58%;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1.05rem 0 1.05rem 1.1rem;
+  padding: 24px 0 23px 16px;
 }
-@media (min-width: 640px) { .hs__text { padding: 2rem; width: 55%; } }
+@media (min-width: 640px) { .hs__text { padding: 2rem 0 2rem 2rem; } }
+
 .hs__badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
   border-radius: 999px;
-  padding: 0.28rem 0.7rem;
-  font-size: 0.68rem;
-  font-weight: 600;
+  padding: 0 11px;
+  font-size: 11.5px;
+  font-weight: 500;
   white-space: nowrap;
-  background: var(--hs-chip-bg);
-  color: var(--hs-chip-ink);
+  background: #082052;
+  color: #ffffff;
 }
 .hs__title {
-  margin: 0.6rem 0 0;
-  max-width: 13ch;
-  font-size: 1.06rem;
-  font-weight: 600;
-  line-height: 1.22;
-  letter-spacing: -0.015em;
-  color: var(--hs-ink);
+  margin: 11px 0 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  color: #082052;
   text-wrap: balance;
 }
-@media (min-width: 640px) { .hs__title { font-size: 1.9rem; } }
+@media (min-width: 640px) { .hs__title { font-size: 1.8rem; } }
+
 .hs__cta {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 18px;
+  height: 44px;
   margin-top: auto;
   border-radius: 999px;
-  padding: 0.3rem 0.3rem 0.3rem 1rem;
-  font-size: 0.88rem;
-  font-weight: 600;
+  padding: 0 6px 0 20px;
+  font-size: 15.5px;
+  font-weight: 500;
   white-space: nowrap;
-  background: var(--hs-chip-bg);
-  color: var(--hs-chip-ink);
+  background: #082052;
+  color: #ffffff;
   transition: transform 0.2s ease;
 }
 .hs__cta:active { transform: scale(0.96); }
@@ -155,43 +169,30 @@ h1, h2, h3 { font-family: var(--font-display); }
   height: 32px;
   place-items: center;
   border-radius: 999px;
-  background: var(--hs-chip-ink);
-  color: var(--hs-chip-bg);
+  background: #e9e7f0;
+  color: #082052;
 }
 
-/* Rasm: o'ng tomonda, banner tepasidan ~22px chiqib turadi */
+/* Rasm — o'ng yarmida, pastki chekkaga tegib turadi (karta uni kesadi) */
 .hs__art {
   position: absolute;
-  right: 0.4rem;
+  top: 14px;
+  right: -4px;
   bottom: 0;
-  top: -22px;
   z-index: 1;
   display: flex;
-  width: 42%;
+  width: 50%;
   align-items: flex-end;
   justify-content: center;
   pointer-events: none;
 }
-.hs__art img {
+.hs__art img,
+.hs__svg {
   width: 100%;
-  max-height: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: bottom center;
-  filter: drop-shadow(0 10px 16px rgb(8 32 82 / 0.22));
 }
-.hs__icon {
-  display: grid;
-  width: 104px;
-  height: 104px;
-  margin-bottom: 1.6rem;
-  place-items: center;
-  border-radius: 34px;
-  background: rgb(255 255 255 / 0.55);
-  color: var(--hs-ink);
-  box-shadow: 0 12px 24px -10px rgb(8 32 82 / 0.35);
-  transform: rotate(-6deg);
-}
-.hs--navy .hs__icon { background: rgb(248 240 229 / 0.12); }
 
 /* ── Bo'lim sarlavhasi va «Barchasi» ── */
 .section-head {
@@ -576,3 +577,7 @@ h1, h2, h3 { font-family: var(--font-display); }
 /* Gorizontal lentalar: scroll-snap birinchi elementni ichki chekinish bilan joylasin */
 .category-strip { scroll-padding-inline: 1.25rem; }
 @media (min-width: 640px) { .category-strip { scroll-padding-inline: 2.5rem; } }
+
+/* Admin bannerlari ham shu karuselda — o'lchami o'zimizning slaydlar bilan bir xil */
+.hero-slide { min-height: 0 !important; aspect-ratio: 1.87; border-radius: 22px; }
+@media (min-width: 640px) { .hero-slide { aspect-ratio: 2.4; } }

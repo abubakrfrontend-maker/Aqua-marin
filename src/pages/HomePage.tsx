@@ -1,9 +1,7 @@
 import { PromoBanner } from '../components/promo/PromoBanner'
 import type { Promotion } from '../utils/promotions'
-import { ArrowUpRight, Bell, Heart, Search, SlidersHorizontal, SprayCan, Truck, WashingMachine } from 'lucide-react'
+import { ArrowUpRight, Bell, Heart, Search, SlidersHorizontal, SprayCan } from 'lucide-react'
 import type { ReactNode } from 'react'
-// TODO(AQUA): mahsulotlar fotosi kelganda almashtiriladi — hozircha logo
-import heroProducts from '../images/aqua-mark.png'
 import { BrandLogo } from '../components/brand/BrandLogo'
 import { ProductCard } from '../components/product/ProductCard'
 import { ProductRowSkeleton } from '../components/ui/ProductCardSkeleton'
@@ -16,6 +14,8 @@ import { useReveal } from '../hooks/use-reveal'
 import { useI18n, useT } from '../i18n'
 import { HeroCarousel } from '../components/home/HeroCarousel'
 import { HeroSlide } from '../components/home/HeroSlide'
+// TODO(AQUA): mahsulot fotolari (fonsiz PNG) kelganda illyustratsiya o'rniga qo'yiladi
+import { HeroArt } from '../components/home/HeroArt'
 import type { HomeBanner } from '../config/banners'
 import { openExternalLink } from '../utils/telegram'
 import type { AppPage, Category, Product, ProductActions } from '../types/domain'
@@ -96,33 +96,32 @@ export function HomePage({
   const mainLine = MAIN_LINES[0]?.name
   const heroSlide = (
     key: string,
-    tone: 'sand' | 'mist' | 'navy',
     badge: string,
     title: string,
     cta: string,
     onClick: () => void,
     art: ReactNode,
   ) => (
-    <div key={key} className={`hs hs--${tone}`}>
+    <div key={key} className="hs">
       <div className="hs__text">
         <span className="hs__badge">{badge}</span>
         <h2 className="hs__title">{title}</h2>
         <button onClick={onClick} className="hs__cta">
           <span>{cta}</span>
-          <span className="hs__arrow"><ArrowUpRight size={17} strokeWidth={2.4} /></span>
+          <span className="hs__arrow"><ArrowUpRight size={18} strokeWidth={1.8} /></span>
         </button>
       </div>
       <div className="hs__art" aria-hidden="true">{art}</div>
     </div>
   )
   const ownSlides = [
-    heroSlide('s1', 'sand', t('home.heroBadge'), t('home.heroTitle'), t('home.heroCta'), () => onNavigate('catalog'),
-      <img src={heroProducts} alt="" decoding="async" fetchPriority="high" />),
-    heroSlide('s2', 'mist', t('home.hero2Badge'), t('home.hero2Title'), t('home.hero2Cta'),
+    heroSlide('s1', t('home.heroBadge'), t('home.heroTitle'), t('home.heroCta'), () => onNavigate('catalog'),
+      <HeroArt variant="bottles" />),
+    heroSlide('s2', t('home.hero2Badge'), t('home.hero2Title'), t('home.hero2Cta'),
       () => (mainLine ? onOpenCategory(mainLine) : onNavigate('catalog')),
-      <span className="hs__icon"><WashingMachine size={64} strokeWidth={1.6} /></span>),
-    heroSlide('s3', 'navy', t('home.hero3Badge'), t('home.hero3Title'), t('home.hero3Cta'), () => onNavigate('catalog'),
-      <span className="hs__icon"><Truck size={64} strokeWidth={1.6} /></span>),
+      <HeroArt variant="jug" />),
+    heroSlide('s3', t('home.hero3Badge'), t('home.hero3Title'), t('home.hero3Cta'), () => onNavigate('catalog'),
+      <HeroArt variant="box" />),
   ]
 
   return (

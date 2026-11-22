@@ -46,7 +46,7 @@ REVIEW_GROUP_URL = "https://t.me/aquamarin_group"  # TODO(AQUA)
 ADMIN_IDS: set[int] = set()   # TODO(AQUA): egalar Telegram ID — panel orqali o'chirib bo'lmaydi
 # BotFather /setdomain da ham aynan shu domen ko'rsatilgan bo'lishi kerak.
 # Xosting almashsa (masalan Vercel → Railway) — Railway'da MINI_APP_URL o'zgaruvchisi bilan.
-# TODO(AQUA): haqiqiy domen
+# Vercel domeni
 MINI_APP_URL = os.environ.get("MINI_APP_URL", "https://aqua-marin.vercel.app").rstrip("/")
 # Admin panel — o'sha domendagi alohida sahifa. Bot uni faqat
 # adminlarga ko'rsatadi va u Telegram oynasida to'liq ekranda ochiladi.

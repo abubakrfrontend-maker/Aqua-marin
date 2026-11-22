@@ -13,12 +13,12 @@ grep -rn "TODO(AQUA)" --exclude-dir=node_modules .
 
 | Nima | Qayerga yoziladi |
 |---|---|
-| Bot tokeni (@BotFather) | `bot/.env` → `BOT_TOKEN`, hosting env `BOT_TOKEN` |
-| Bot username | `src/config/brand.ts`, `bot/config.py`, `api/_lib/site.ts` |
-| Firebase web config | `src/config/firebase.ts` (hozir soxta `aqua-marin-todo`) |
-| Firebase service account JSON | loyiha ildizi + `bot/config.py` → `FIREBASE_KEY_FILE`, hosting env `FIREBASE_SERVICE_ACCOUNT` |
-| Storage bucket | `bot/config.py` → `FIREBASE_STORAGE_BUCKET` |
-| Domen (Vercel/Railway) | `api/_lib/site.ts`, `bot/config.py` → `MINI_APP_URL`, BotFather `/setdomain` |
+| ✅ Bot tokeni (@aqua_marin_bot) | `bot/.env`; Vercel env → `vercel.env` faylidan |
+| ✅ Bot username `aqua_marin_bot` | `src/config/brand.ts`, `bot/config.py`, `api/_lib/site.ts` |
+| ✅ Firebase web config (`ecommercy-restoran`, tozalangan) | `src/config/firebase.ts` |
+| ✅ Firebase service account JSON | loyiha ildizi, `bot/config.py`; Vercel env `FIREBASE_SERVICE_ACCOUNT` |
+| ✅ Storage bucket | `bot/config.py` → `FIREBASE_STORAGE_BUCKET` |
+| ✅ Domen: https://aqua-marin.vercel.app | `api/_lib/site.ts`, `bot/config.py`; qoldi: BotFather `/setdomain` |
 | Egalar Telegram ID | `bot/config.py` → `ADMIN_IDS` |
 | Telefon, email, Telegram, manzil, ish vaqti | `src/config/brand.ts`, `bot/config.py` |
 | Karta raqami va egasi | `bot/config.py` (keyin admin paneldan) |

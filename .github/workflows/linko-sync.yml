@@ -15,7 +15,7 @@
 # Eslatma: GitHub jadvalni ba'zan bir necha daqiqaga kechiktiradi —
 # buyurtmalar baribir yaratilganda va holat o'zgarganda darhol ketadi,
 # bu faqat kafolat.
-# TODO(AQUA): domen va Linko kerakligini tasdiqlash
+# TODO(AQUA): Linko kerakligini tasdiqlash (kerak bo'lmasa — bu faylni o'chirish)
 name: Linko sinxron
 
 on:

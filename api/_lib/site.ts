@@ -3,7 +3,7 @@
  * shu ishlatiladi. 2026-11-11: Vercel to'xtadi, sayt Railway'ga ko'chdi.
  * Xosting yana almashsa — shu yerni va bot/config.py ni yangilang.
  */
-// TODO(AQUA): haqiqiy domen (Vercel yoki Railway)
+// Vercel: aqua-marin.vercel.app
 export const DEFAULT_SITE_URL = 'https://aqua-marin.vercel.app'
 
 /** Bot username — env BOT_USERNAME bo'lmasa. Frontenddagi nusxasi: src/config/brand.ts. */

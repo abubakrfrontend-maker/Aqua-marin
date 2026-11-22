@@ -24,13 +24,14 @@ export type TimerConfig = {
 type Saved = { start: number; minutes: number; used?: boolean }
 
 const KEY = 'aqua:delivery-timer'
-const DEFAULT: TimerConfig = { enabled: true, minutes: 20, repeat: 'daily' }
+// Standart — o'chiq: admin «Sozlamalar → Marketing» dan aniq yoqmaguncha ko'rinmaydi
+const DEFAULT: TimerConfig = { enabled: false, minutes: 20, repeat: 'daily' }
 
 export function readTimerConfig(data: unknown): TimerConfig {
   const raw = (data ?? {}) as Partial<TimerConfig>
   const minutes = Math.round(Number(raw.minutes))
   return {
-    enabled: raw.enabled !== false,
+    enabled: raw.enabled === true,
     minutes: Number.isFinite(minutes) && minutes >= 1 && minutes <= 180 ? minutes : DEFAULT.minutes,
     repeat: raw.repeat === 'visit' ? 'visit' : 'daily',
   }

@@ -440,7 +440,7 @@ export function ChannelPage() {
               rows={7}
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder={'🔥 Yangi aksiya!\n\nBarcha muzqaymoqlarga 20% chegirma — faqat shu hafta.'}
+              placeholder={'🔥 Yangi aksiya!\n\nBarcha kir yuvish vositalariga 20% chegirma — faqat shu hafta.'}
               disabled={running}
               maxLength={3500}
             />
@@ -460,7 +460,7 @@ export function ChannelPage() {
               rows={5}
               value={textRu}
               onChange={(e) => setTextRu(e.target.value)}
-              placeholder={'🔥 Новая акция!\n\nСкидка 20% на всё мороженое — только на этой неделе.'}
+              placeholder={'🔥 Новая акция!\n\nСкидка 20% на все средства для стирки — только на этой неделе.'}
               disabled={running}
               maxLength={3500}
             />
@@ -749,7 +749,7 @@ function PollForm({
         className="adm-input"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
-        placeholder="Qaysi ta’mdagi muzqaymoqni qo‘shaylik?"
+        placeholder="Qaysi hidli vositani qo‘shaylik?"
         maxLength={300}
         disabled={busy}
       />

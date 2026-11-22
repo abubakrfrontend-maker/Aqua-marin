@@ -750,7 +750,7 @@ export const uz = {
   'timer.subtitle': 'Keyingi {minutes} daqiqa ichida buyurtma bering — yetkazib berish biz tomondan',
   'timer.left': 'qoldi',
   'timer.perkFree': '0 so‘m yetkazish',
-  'timer.perkCold': 'Muzdek holda yetkazamiz',
+  'timer.perkCold': 'Ehtiyotkorlik bilan yetkazamiz',
   'timer.cta': 'Xaridni boshlash',
   'timer.ctaCart': 'Savatga o‘tish',
   'timer.later': 'Keyinroq',

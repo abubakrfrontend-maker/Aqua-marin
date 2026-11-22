@@ -106,12 +106,12 @@ function readOrder(body: unknown): IncomingOrder {
   }
 }
 
-/** Taymer sozlamasi — src/lib/delivery-timer.ts bilan bir xil (hujjat yo'q bo'lsa: yoqilgan, 20 daqiqa). */
+/** Taymer sozlamasi — src/lib/delivery-timer.ts bilan bir xil (hujjat yo'q bo'lsa: o'chiq). */
 function timerConfig(data: FirebaseFirestore.DocumentData | undefined): { enabled: boolean; minutes: number } {
   const raw = (data?.deliveryTimer ?? {}) as { enabled?: unknown; minutes?: unknown }
   const minutes = Math.round(Number(raw.minutes))
   return {
-    enabled: raw.enabled !== false,
+    enabled: raw.enabled === true,
     minutes: Number.isFinite(minutes) && minutes >= 1 && minutes <= 180 ? minutes : 20,
   }
 }

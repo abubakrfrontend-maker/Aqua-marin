@@ -198,7 +198,7 @@ export function PromotionsPage() {
         error ? null : <div className="adm-card adm-empty">
           <Flame size={30} />
           <p className="text-sm font-semibold">Hali aksiya yo‘q</p>
-          <p className="max-w-sm text-xs">Masalan: «Hafta oxiri — muzqaymoqlar −20%», juma 18:00 dan yakshanba 23:59 gacha.</p>
+          <p className="max-w-sm text-xs">Masalan: «Hafta oxiri — kir yuvish vositalari −20%», juma 18:00 dan yakshanba 23:59 gacha.</p>
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -342,7 +342,7 @@ function PromotionForm({
       <div className="grid gap-3 sm:grid-cols-[1fr_140px]">
         <div>
           <label className="adm-label" htmlFor="promo-title">Aksiya nomi — mijoz shuni ko‘radi</label>
-          <input id="promo-title" className="adm-input" value={draft.title} onChange={(e) => set({ title: e.target.value })} placeholder="Hafta oxiri — muzqaymoqlar arzon" maxLength={80} />
+          <input id="promo-title" className="adm-input" value={draft.title} onChange={(e) => set({ title: e.target.value })} placeholder="Hafta oxiri — kir yuvish vositalari arzon" maxLength={80} />
         </div>
         <div>
           <label className="adm-label" htmlFor="promo-percent">Chegirma, %</label>

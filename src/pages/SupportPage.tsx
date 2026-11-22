@@ -9,22 +9,22 @@ import {
   Headphones,
   Clock,
   CheckCircle2,
-  ChefHat,
-  IceCreamCone,
-  Snowflake,
+  Package,
+  Smartphone,
+  Truck,
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { BRAND } from '../config/brand'
 import { DEFAULT_CONTACT, phoneHref, telegramHref, type ContactInfo } from '../config/contact'
 import { subscribeToContact } from '../lib/firebase'
-import { useT } from '../i18n'
+import { useI18n } from '../i18n'
+import { toCyrillic } from '../i18n/cyrillic'
 import { PageTitle } from '../components/layout/PageTitle'
 
 type Props = {
   onBack: () => void
 }
 
-// TODO(AQUA): yetkazish, to‘lov va ulgurji shartlarini mijoz bilan tasdiqlash
 const faqs_uz = [
   {
     q: "Aqua Marin mahsulotlari nimasi bilan ajralib turadi?",
@@ -44,7 +44,7 @@ const faqs_uz = [
   },
   {
     q: "Eng kam buyurtma miqdori bormi?",
-    a: "Yo‘q, hatto bitta paketdan ham buyurtma berishingiz mumkin. Katta summadagi buyurtmalar bepul yetkaziladi — summa rasmiylashtirish sahifasida ko‘rsatiladi.",
+    a: "Yo‘q, hatto bitta mahsulotdan ham buyurtma berishingiz mumkin. Katta summadagi buyurtmalar bepul yetkaziladi — summa rasmiylashtirish sahifasida ko‘rsatiladi.",
   },
   {
     q: "To‘lov qanday amalga oshiriladi?",
@@ -79,7 +79,7 @@ const faqs_ru = [
   },
   {
     q: "Есть ли минимальный заказ?",
-    a: "Нет, заказать можно даже один пакет. Крупные заказы доставляются бесплатно — сумма указана на странице оформления.",
+    a: "Нет, заказать можно даже один товар. Крупные заказы доставляются бесплатно — сумма указана на странице оформления.",
   },
   {
     q: "Как осуществляется оплата?",
@@ -87,7 +87,7 @@ const faqs_ru = [
   },
   {
     q: "Возможна ли оптовая закупка или сотрудничество?",
-    a: "Да. Для магазинов, кафе, ресторанов и дистрибьюторов действуют отдельные условия — свяжитесь по телефону или в Telegram ниже.",
+    a: "Да. Для магазинов, гостиниц, офисов и дистрибьюторов действуют отдельные условия — свяжитесь по телефону или в Telegram ниже.",
   },
   {
     q: "Как использовать промокод?",
@@ -126,10 +126,10 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 }
 
 export function SupportPage({ onBack }: Props) {
-  const t = useT()
-  // detect lang from localStorage
-  const lang = (localStorage.getItem('aquaShopLang') ?? 'uz') as 'uz' | 'ru'
-  const faqs = lang === 'ru' ? faqs_ru : faqs_uz
+  const { t, lang } = useI18n()
+  // Ўзбекча (kirill) — o'zbekcha matnlar avtomatik o'giriladi
+  const L = (text: string) => (lang === 'uzc' ? toCyrillic(text) : text)
+  const faqs = lang === 'ru' ? faqs_ru : faqs_uz.map((f) => ({ q: L(f.q), a: L(f.a) }))
   // Aloqa ma'lumotlari admin paneldan (Sozlamalar → «Biz bilan aloqa»)
   const [contact, setContact] = useState<ContactInfo>(DEFAULT_CONTACT)
   useEffect(() => subscribeToContact(setContact), [])
@@ -138,7 +138,7 @@ export function SupportPage({ onBack }: Props) {
     {
       id: 'phone',
       icon: Phone,
-      label: lang === 'ru' ? 'Телефон' : 'Telefon',
+      label: lang === 'ru' ? 'Телефон' : L('Telefon'),
       value: contact.phone,
       href: phoneHref(contact.phone),
       color: 'var(--brand)',
@@ -162,19 +162,19 @@ export function SupportPage({ onBack }: Props) {
       color: 'var(--gold)',
       bg: 'var(--gold-soft)',
     },
-  ]
+  ].filter((c) => c.value && c.value !== '@')
 
   const about = lang === 'ru'
     ? [
-        { icon: Snowflake, title: 'Шоковая заморозка', text: 'Продукт замораживается сразу после приготовления.' },
-        { icon: ChefHat, title: 'Свежее сырьё', text: 'Мясо, тесто и молочные продукты — свежие каждый день.' },
-        { icon: IceCreamCone, title: 'Широкий ассортимент', text: 'Полуфабрикаты, мороженое и глазированные сырки.' },
+        { icon: Package, title: 'Широкий ассортимент', text: 'Средства для стирки, мытья посуды и уборки дома.' },
+        { icon: Truck, title: 'Доставка до двери', text: 'Привезём заказ по Ташкенту прямо к вам домой.' },
+        { icon: Smartphone, title: 'Заказ в Telegram', text: 'Без регистрации — всего в несколько нажатий.' },
       ]
     : [
-        { icon: Snowflake, title: 'Shok muzlatish', text: "Mahsulot tayyorlangan zahoti −18°C da muzlatiladi." },
-        { icon: ChefHat, title: 'Yangi xomashyo', text: "Go‘sht, xamir va sut mahsulotlari har kuni yangi." },
-        { icon: IceCreamCone, title: 'Keng assortiment', text: 'Yarim tayyor mahsulotlar, muzqaymoq va siroklar.' },
-      ]
+        { icon: Package, title: 'Keng assortiment', text: 'Kir yuvish, idish yuvish va uy tozalash vositalari.' },
+        { icon: Truck, title: 'Eshikkacha yetkazish', text: 'Toshkent bo‘ylab buyurtmangizni uyingizgacha olib boramiz.' },
+        { icon: Smartphone, title: 'Telegram orqali buyurtma', text: 'Ro‘yxatdan o‘tishsiz — bir necha bosishda.' },
+      ].map((a) => ({ ...a, title: L(a.title), text: L(a.text) }))
 
   const features = lang === 'ru'
     ? [
@@ -186,7 +186,7 @@ export function SupportPage({ onBack }: Props) {
         { icon: Clock, text: `Buyurtmalar ${contact.workHours}` },
         { icon: CheckCircle2, text: 'Tez javob' },
         { icon: MapPin, text: contact.address },
-      ]
+      ].map((f) => ({ ...f, text: L(f.text) }))
 
   return (
     <>
@@ -203,11 +203,11 @@ export function SupportPage({ onBack }: Props) {
           <ArrowLeft size={20} />
         </button>
         <div>
-          <PageTitle className="text-2xl font-extrabold leading-tight" short={lang === 'ru' ? 'Поддержка' : 'Yordam'}>
-            {lang === 'ru' ? 'Помощь и поддержка' : "Yordam va qo'llab-quvvatlash"}
+          <PageTitle className="text-2xl font-extrabold leading-tight" short={lang === 'ru' ? 'Поддержка' : L('Yordam')}>
+            {lang === 'ru' ? 'Помощь и поддержка' : L("Yordam va qo'llab-quvvatlash")}
           </PageTitle>
           <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>
-            {lang === 'ru' ? 'Мы всегда рядом' : "Biz doim siz bilan"}
+            {lang === 'ru' ? 'Мы всегда рядом' : L("Biz doim siz bilan")}
           </p>
         </div>
       </header>
@@ -238,12 +238,12 @@ export function SupportPage({ onBack }: Props) {
               <Headphones size={28} color="white" />
             </div>
             <h2 className="wordmark text-xl text-white leading-tight">
-              {lang === 'ru' ? `Служба заботы ${BRAND.name}` : `${BRAND.name} mijozlar xizmati`}
+              {lang === 'ru' ? `Служба заботы ${BRAND.name}` : L(`${BRAND.name} mijozlar xizmati`)}
             </h2>
             <p className="mt-1.5 text-sm text-white opacity-80">
               {lang === 'ru'
                 ? 'Свяжитесь с нами любым удобным способом'
-                : "Qulay usul orqali biz bilan bog'laning"}
+                : L("Qulay usul orqali biz bilan bog'laning")}
             </p>
 
             {/* Feature badges */}
@@ -263,13 +263,14 @@ export function SupportPage({ onBack }: Props) {
         </div>
       </section>
 
-      {/* Contact Cards */}
+      {/* Aloqa kartalari — admin hech narsa kiritmagan bo'lsa bo'lim ko'rinmaydi */}
+      {contacts.length > 0 && (
       <section
         className="px-5 pt-6 sm:px-10"
         style={{ animation: 'fadeInUp 0.4s ease 0.1s both' }}
       >
         <h2 className="section-title mb-4">
-          {lang === 'ru' ? 'Контакты' : "Bog'lanish"}
+          {lang === 'ru' ? 'Контакты' : L("Bog'lanish")}
         </h2>
         <div className="flex flex-col gap-3">
           {contacts.map(({ id, icon: Icon, label, value, href, color, bg }) => (
@@ -300,12 +301,13 @@ export function SupportPage({ onBack }: Props) {
                 className="shrink-0 rounded-xl px-3 py-1.5 text-xs font-bold"
                 style={{ background: bg, color }}
               >
-                {lang === 'ru' ? 'Написать' : 'Yozish'}
+                {lang === 'ru' ? 'Написать' : L('Yozish')}
               </span>
             </a>
           ))}
         </div>
       </section>
+      )}
 
       {/* Aqua Marin haqida */}
       <section
@@ -313,7 +315,7 @@ export function SupportPage({ onBack }: Props) {
         style={{ animation: 'fadeInUp 0.4s ease 0.12s both' }}
       >
         <h2 className="section-title mb-4">
-          {lang === 'ru' ? `О ${BRAND.name}` : `${BRAND.name} haqida`}
+          {lang === 'ru' ? `О ${BRAND.name}` : L(`${BRAND.name} haqida`)}
         </h2>
         <div
           className="rounded-2xl border p-2"
@@ -344,7 +346,7 @@ export function SupportPage({ onBack }: Props) {
         style={{ animation: 'fadeInUp 0.4s ease 0.15s both' }}
       >
         <h2 className="section-title mb-4">
-          {lang === 'ru' ? 'Часто задаваемые вопросы' : "Ko'p so'raladigan savollar"}
+          {lang === 'ru' ? 'Часто задаваемые вопросы' : L("Ko'p so'raladigan savollar")}
         </h2>
         <div className="flex flex-col gap-3">
           {faqs.map((item) => (
@@ -360,7 +362,7 @@ export function SupportPage({ onBack }: Props) {
           <p className="text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>
             {lang === 'ru'
               ? 'Не нашли ответ? Напишите нам — мы ответим в течение нескольких минут.'
-              : "Javob topa olmadingizmi? Bizga yozing — bir necha daqiqa ichida javob beramiz."}
+              : L("Javob topa olmadingizmi? Bizga yozing — bir necha daqiqa ichida javob beramiz.")}
           </p>
         </div>
       </section>

@@ -485,9 +485,9 @@ export function ProductsPage() {
 
 const LANGS = [
   { code: 'uz', label: 'O‘zbekcha', name: 'name', description: 'description',
-    namePlaceholder: 'Chuchvara mol go‘shtli, 800 g', descriptionPlaceholder: 'Yangi go‘sht va xamirdan, shok muzlatilgan.' },
+    namePlaceholder: 'Kir yuvish geli Aqua Marin, 1 L', descriptionPlaceholder: 'Rangli va oq kiyimlar uchun, yoqimli hidli.' },
   { code: 'ru', label: 'Ruscha', name: 'nameRu', description: 'descriptionRu',
-    namePlaceholder: 'Пельмени с говядиной, 800 г', descriptionPlaceholder: 'Из свежего мяса и теста, шоковая заморозка.' },
+    namePlaceholder: 'Гель для стирки Aqua Marin, 1 л', descriptionPlaceholder: 'Для цветного и белого белья, с приятным ароматом.' },
   { code: 'en', label: 'Inglizcha', name: 'nameEn', description: 'descriptionEn',
     namePlaceholder: 'Beef dumplings, 800 g', descriptionPlaceholder: 'Fresh meat and dough, blast frozen.' },
 ] as const
@@ -685,7 +685,7 @@ function ProductForm({
         )}
 
         {!isSet && (
-          <Field label="O‘ramda nechta dona — masalan sirok qutisi 30 ta">
+          <Field label="O‘ramda nechta dona — masalan qutida 12 ta">
             <input
               className="adm-input"
               inputMode="numeric"

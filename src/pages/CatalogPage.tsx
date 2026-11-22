@@ -5,6 +5,7 @@ import { ProductCard } from '../components/product/ProductCard'
 import { ProductGridSkeleton } from '../components/ui/ProductCardSkeleton'
 import { TextSkeleton } from '../components/ui/LoadingSkeletons'
 import { categoryIcon } from '../utils/category-icons'
+import { pastel } from '../utils/pastel'
 import { categoryLabel, sectionLabel } from '../config/categories'
 import { useAutoScroll } from '../hooks/use-auto-scroll'
 import { setSwipeInterceptor } from '../hooks/use-swipe-nav'
@@ -129,7 +130,7 @@ export function CatalogPage({
 
       {/* Kategoriyalar */}
       <section ref={stripRef} className="category-pills scrollbar-none mt-4">
-        {displayCategories.map((category) => {
+        {displayCategories.map((category, index) => {
           const Icon = category.name === ALL ? Grid2X2 : categoryIcon(category.icon, category.name)
           const selected = active === category.name
           return (
@@ -139,8 +140,9 @@ export function CatalogPage({
               data-cat={category.name}
               aria-pressed={selected}
               className={'category-pill ' + (selected ? 'active' : '')}
+              style={{ ['--tile' as string]: pastel(index) }}
             >
-              <Icon size={22} />
+              <span className="category-pill__icon"><Icon size={24} /></span>
               <span className="category-pill__label">
                 {category.name === ALL ? ALL : categoryLabel(category, lang)}
               </span>

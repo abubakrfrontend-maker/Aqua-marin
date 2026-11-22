@@ -4,6 +4,8 @@ import { productThumb } from '../../utils/product-image'
 import { useT } from '../../i18n'
 import { FreeDeliveryChip } from '../promo/FreeDeliveryTimer'
 import { useFreeDelivery } from '../../hooks/use-free-delivery'
+import { useDeliveryTimer } from '../../hooks/use-delivery-timer'
+import { pastel } from '../../utils/pastel'
 import { FreeDeliveryBar } from './FreeDeliveryBar'
 import type { Product } from '../../types/domain'
 
@@ -29,6 +31,11 @@ export function CartDrawer({
 }: Props) {
   const t = useT()
   const delivery = useFreeDelivery()
+  // Rasmiylashtirish sahifasidagi qoida bilan bir xil (promokod/bonusdan oldin)
+  const freeTimer = useDeliveryTimer().active
+  const settings = delivery.settings
+  const deliveryFee =
+    settings === null || freeTimer || (settings.freeFrom > 0 && cartTotal >= settings.freeFrom) ? 0 : settings.fee
 
   return (
     <div
@@ -65,28 +72,17 @@ export function CartDrawer({
               {cartProducts.map(({ product, quantity, size, color, cartKey }, i) => (
                 <article
                   key={cartKey}
-                  className="flex gap-3 rounded-2xl border p-3 transition"
-                  style={{
-                    borderColor: 'var(--line)',
-                    animation: `fadeInUp 0.32s ease ${i * 0.05}s both`,
-                  }}
+                  className="cart-item"
+                  style={{ animation: `fadeInUp 0.32s ease ${i * 0.05}s both` }}
                 >
-                  {productThumb(product) ? (
-                    <img
-                      src={productThumb(product)}
-                      alt={product.name}
-                      loading="lazy"
-                      className="size-20 shrink-0 rounded-xl object-contain"
-                      style={{ background: 'var(--surface-2)' }}
-                    />
-                  ) : (
-                    <div
-                      className="grid size-20 shrink-0 place-items-center rounded-xl"
-                      style={{ background: 'var(--surface-2)', color: 'var(--faint)' }}
-                    >
+                  {/* Rasm — pastel fonda (har qatorda boshqa rang) */}
+                  <span className="cart-item__media" style={{ ['--tile' as string]: pastel(i) }}>
+                    {productThumb(product) ? (
+                      <img src={productThumb(product)} alt={product.name} loading="lazy" />
+                    ) : (
                       <ShoppingBag size={24} />
-                    </div>
-                  )}
+                    )}
+                  </span>
 
                   <div className="min-w-0 flex-1">
                     <h3 className="truncate font-bold" style={{ color: 'var(--ink)' }}>
@@ -104,29 +100,14 @@ export function CartDrawer({
                       {product.pack ? <span className="font-bold" style={{ color: 'var(--muted)' }}> · {t('product.pack', { count: product.pack })}</span> : null}
                     </p>
 
-                    <div className="mt-3 flex items-center justify-between">
-                      <div
-                        className="flex items-center gap-2 rounded-xl p-1"
-                        style={{ background: 'var(--surface-2)' }}
-                      >
-                        <button
-                          onClick={() => onUpdateQuantity(cartKey, quantity - 1)}
-                          className="grid size-7 place-items-center rounded-lg transition active:scale-90"
-                          style={{ color: 'var(--ink)' }}
-                          aria-label="-"
-                        >
+                    <div className="mt-2.5 flex items-center justify-between">
+                      <div className="cart-stepper">
+                        <button onClick={() => onUpdateQuantity(cartKey, quantity - 1)} aria-label="-">
                           <Minus size={15} />
                         </button>
-                        <b className="w-5 text-center text-sm" style={{ color: 'var(--ink)' }}>
-                          {quantity}
-                        </b>
-                        <button
-                          onClick={() => onUpdateQuantity(cartKey, quantity + 1)}
-                          className="grid size-7 place-items-center rounded-lg transition active:scale-90"
-                          style={{ color: 'var(--ink)' }}
-                          aria-label="+"
-                        >
-                          <Plus size={15} />
+                        <b>{quantity}</b>
+                        <button className="is-plus" onClick={() => onUpdateQuantity(cartKey, quantity + 1)} aria-label="+">
+                          <Plus size={15} strokeWidth={2.6} />
                         </button>
                       </div>
                       <button
@@ -153,9 +134,16 @@ export function CartDrawer({
                   text={delivery.text}
                 />
               )}
-              <div className="mb-4 flex justify-between text-lg">
-                <span className="font-bold" style={{ color: 'var(--ink)' }}>{t('cart.total')}</span>
-                <b style={{ color: 'var(--ink)' }}>{formatPrice(cartTotal)}</b>
+              {/* Jamlanma: mahsulotlar, yetkazish, jami */}
+              <div className="cart-summary">
+                <p><span>{t('cart.items')}</span><b>{formatPrice(cartTotal)}</b></p>
+                {settings !== null && (
+                  <p>
+                    <span>{t('checkout.delivery')}</span>
+                    <b>{deliveryFee === 0 ? t('checkout.deliveryFree') : formatPrice(deliveryFee)}</b>
+                  </p>
+                )}
+                <p className="cart-summary__total"><span>{t('cart.total')}</span><b>{formatPrice(cartTotal + deliveryFee)}</b></p>
               </div>
               <button onClick={onCheckout} className="btn-primary w-full py-4">
                 <ShoppingBag size={20} /> {t('cart.checkout')}

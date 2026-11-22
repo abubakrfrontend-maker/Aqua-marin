@@ -2,11 +2,12 @@ import { PromoBanner } from '../components/promo/PromoBanner'
 import type { Promotion } from '../utils/promotions'
 import { ArrowUpRight, Bell, Heart, Search, SlidersHorizontal, SprayCan } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { BrandLogo } from '../components/brand/BrandLogo'
+import { HomeGreeting } from '../components/home/HomeGreeting'
 import { ProductCard } from '../components/product/ProductCard'
 import { ProductRowSkeleton } from '../components/ui/ProductCardSkeleton'
 import { IconButton } from '../components/ui/IconButton'
 import { categoryIcon } from '../utils/category-icons'
+import { pastel } from '../utils/pastel'
 import { MAIN_LINES, categoryLabel, isMainLine } from '../config/categories'
 import { useMemo, useRef } from 'react'
 import { useAutoScroll } from '../hooks/use-auto-scroll'
@@ -130,7 +131,7 @@ export function HomePage({
       {/* To'liq ekranda brend tepa panelga chiqadi, qidiruv esa shu qatorga
           ko'tariladi — bosh sahifada bitta qator tejaladi */}
       <header className="page-head home-head flex items-center justify-between gap-2 px-5 pt-7 sm:px-10">
-        <BrandLogo size={44} className="home-head__brand" />
+        <HomeGreeting className="home-head__brand" />
         <button onClick={onSearch} className="search-trigger page-head__search" style={{ color: 'var(--faint)' }}>
           <Search className="shrink-0" size={19} />
           <span className="truncate text-sm">{t('home.searchPlaceholder')}</span>
@@ -222,7 +223,7 @@ export function HomePage({
                 style={{ ['--d' as string]: `${index * 70}ms` }}
               >
                 <span className="cat-chip__name">{categoryLabel(line, lang)}</span>
-                <span className="cat-chip__media" aria-hidden="true">
+                <span className="cat-chip__media" aria-hidden="true" style={{ ['--tile' as string]: pastel(index + 1) }}>
                   {line.image ? <img src={line.image} alt="" loading="lazy" /> : <Icon size={24} />}
                 </span>
               </button>

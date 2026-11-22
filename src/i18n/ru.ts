@@ -35,6 +35,7 @@ export const ru: Record<TranslationKey, string> = {
 
   // ── Главная ──
   'home.searchPlaceholder': 'Поиск товара или категории...',
+  'home.welcomeBack': 'Добро пожаловать,',
   'home.heroBadge': 'Свежо и качественно',
   'home.heroTitle': 'Чистый дом — за несколько минут',
   'home.heroSubtitle': 'Средства для стирки, мытья посуды и уборки.',
@@ -139,6 +140,7 @@ export const ru: Record<TranslationKey, string> = {
   'promo.leftLabel': 'до конца',
   'promo.daysShort': '{d} дн',
   'cart.total': 'Итого',
+  'cart.items': 'Товары',
   'cart.checkout': 'Оформить заказ',
   'cart.size': 'Объём',
   'cart.color': 'Вид',

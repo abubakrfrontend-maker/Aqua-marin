@@ -10,6 +10,7 @@ import { OrderListSkeleton } from '../components/ui/LoadingSkeletons'
 import { useT, type TranslationKey } from '../i18n'
 import type { Order, OrderStatus } from '../types/domain'
 import { AWAITING_PAYMENT, providerLabel } from '../utils/payment'
+import { CourierStrip, OrderSteps } from '../components/order/OrderSteps'
 
 
 const TABS: { id: string; labelKey: TranslationKey }[] = [
@@ -159,6 +160,10 @@ export function OrdersPage({
                     {formatPrice(order.total)}
                   </p>
                 </div>
+
+                {/* Bosqichlar chizig'i — bekor qilinganlarda ko'rinmaydi */}
+                <OrderSteps status={order.status} />
+                <CourierStrip order={order} />
 
                 <div
                   className="flex items-center justify-between border-t pt-2.5"

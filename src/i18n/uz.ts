@@ -40,6 +40,7 @@ export const uz = {
 
   // ── Bosh sahifa ──
   'home.searchPlaceholder': 'Mahsulot yoki turkum qidiring...',
+  'home.welcomeBack': 'Xush kelibsiz,',
   'home.heroBadge': 'Yangi va sifatli',
   'home.heroTitle': "Toza uy — bir necha daqiqada",
   'home.heroSubtitle': 'Kir yuvish, idish yuvish va uy tozalash vositalari.',
@@ -144,6 +145,7 @@ export const uz = {
   'promo.leftLabel': 'tugashiga',
   'promo.daysShort': '{d} kun',
   'cart.total': 'Jami',
+  'cart.items': 'Mahsulotlar',
   'cart.checkout': 'Buyurtma berish',
   'cart.size': 'Hajm',
   'cart.color': 'Turi',

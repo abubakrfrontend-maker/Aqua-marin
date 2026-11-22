@@ -1,4 +1,4 @@
-import { Gift, Heart, Minus, Plus, ShoppingCart, Star } from 'lucide-react'
+import { Gift, Heart, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { flyToCart } from '../../utils/fly-to-cart'
 import { heartBurst } from '../../utils/burst'
 import { markHero } from '../../utils/view-transition'
@@ -6,13 +6,14 @@ import { useState } from 'react'
 import { formatPrice } from '../../data'
 import { productPhoto, productThumb } from '../../utils/product-image'
 import { ProductImage } from './ProductImage'
-import { useT } from '../../i18n'
+import { useI18n } from '../../i18n'
+import { categoryLabel } from '../../config/categories'
 import type { Product, ProductActions } from '../../types/domain'
 
 type Props = ProductActions & { product: Product; compact?: boolean }
 
 export function ProductCard({ product, onOpen, onAddToCart, cartQtyOf, onChangeQty, likedIds, onToggleLike, compact = false }: Props) {
-  const t = useT()
+  const { t, lang } = useI18n()
   const favourite = likedIds.includes(product.id)
   // Kartochkada kichik nusxa: ekranda ~170px, katta faylga hojat yo'q
   const imgSrc = productThumb(product)
@@ -56,7 +57,7 @@ export function ProductCard({ product, onOpen, onAddToCart, cartQtyOf, onChangeQ
       onClick={(e) => { e.stopPropagation(); flyToCart(e.currentTarget); onAddToCart(product) }}
       aria-label={soldOut ? t('product.soldOut') : t('product.addToCart')}
     >
-      <ShoppingCart size={18} />
+      <Plus size={18} strokeWidth={2.4} />
     </button>
   )
 
@@ -157,10 +158,13 @@ export function ProductCard({ product, onOpen, onAddToCart, cartQtyOf, onChangeQ
         </button>
       )}
 
+      {/* Yorliq: tugagan / chegirma / admin «Mashhur» belgilagan — HIT */}
       {soldOut ? (
         <span className="product-card-badge muted">{t('product.soldOut')}</span>
       ) : product.discount && !isSet ? (
         <span className="product-card-badge">{product.discount}</span>
+      ) : product.popular && !isSet ? (
+        <span className="product-card-badge">HIT</span>
       ) : null}
 
       <button
@@ -182,6 +186,8 @@ export function ProductCard({ product, onOpen, onAddToCart, cartQtyOf, onChangeQ
         </div>
 
         <div className="product-card-info">
+          {/* Nom ustida — kategoriya (referensdagi brend qatori kabi) */}
+          <p className="product-card-brand">{categoryLabel({ name: product.category, nameRu: product.categoryRu }, lang)}</p>
           <h3 className="product-card-name">{product.name}</h3>
           {/* Vazni bo'lmasa ham joy qoladi — qatordagi kartochkalar bir tekis turadi */}
           <p className="product-card-weight">
@@ -190,12 +196,6 @@ export function ProductCard({ product, onOpen, onAddToCart, cartQtyOf, onChangeQ
               ? t('product.setItems', { n: setCount })
               : [weight, product.pack ? t('product.packOf', { count: product.pack }) : ''].filter(Boolean).join(' · ')}
           </p>
-          {!compact && (
-            <p className="product-card-rating">
-              <Star size={14} fill="var(--warning)" style={{ color: 'var(--warning)' }} />
-              {product.rating.toFixed(1)} ({product.reviews})
-            </p>
-          )}
         </div>
       </button>
 

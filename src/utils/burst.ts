@@ -2,7 +2,7 @@
  * Zarrachalar «portlashi» — element markazidan atrofga sochiladi.
  *
  *   yurakcha — sevimlilarga qo'shilganda (kichik, qizil yurakchalar)
- *   qor      — buyurtma berilganda (muz kristallari — brend: muzlatilgan)
+ *   pufak    — buyurtma berilganda (sovun pufakchalari va uchqunlar — brend: tozalik)
  *
  * React'dan tashqarida: vaqtincha `body` ga qo'shiladi va Web Animations
  * bilan harakatlanadi (faqat transform/opacity). «Harakatni kamaytirish»
@@ -68,11 +68,11 @@ export function burst(el: Element | null, options: Options = {}) {
 export const heartBurst = (el: Element | null) =>
   burst(el, { glyphs: ['♥'], colors: ['#e11d48', '#f43f5e', '#fb7185'], count: 9, distance: 30, size: 11 })
 
-/** Buyurtma qabul qilindi — muz kristallari. */
+/** Buyurtma qabul qilindi — sovun pufakchalari va uchqunlar. */
 export const snowBurst = (el: Element | null) =>
   burst(el, {
-    glyphs: ['❄', '✦', '❅', '•'],
-    colors: ['#7dd3fc', '#38bdf8', '#bae6fd', '#0a447a', '#fde68a'],
+    glyphs: ['○', '✦', '●', '◦'],
+    colors: ['#7dd3fc', '#22c7e0', '#bae6fd', '#082052', '#f8f0e5'],
     count: 26,
     distance: 150,
     size: 16,

@@ -73,7 +73,7 @@ type Draw = { id: string; name: string; username: string | null; tickets: number
 
 const DEFAULTS: GiveawayConfig = {
   title: 'Aqua Marin konkursi',
-  prize: 'Sog‘lom O‘quv Mavsumi seti',
+  prize: 'Aqua Marin sovg‘a to‘plami',
   startAt: null,
   endAt: null,
   winners: 5,
@@ -474,7 +474,7 @@ let lastBoard: { config: GiveawayConfig; done: boolean; rows: Board['rows']; win
 const OFFLINE_CONFIG: GiveawayConfig = {
   ...DEFAULTS,
   title: 'Aqua Marin konkursi',
-  prize: "Sog'lom O'quv Mavsumi seti",
+  prize: "Aqua Marin sovg'a to'plami",
   startAt: '2026-11-02T00:00:00.000Z',
   endAt: '2026-11-09T13:00:00.000Z',
   winners: 5,

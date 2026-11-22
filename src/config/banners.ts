@@ -2,7 +2,7 @@
  * Bosh sahifa bannerlari (admin panel → «Bosh sahifa bannerlari»).
  *
  * `settings/home.banners` da saqlanadi. Ilovadagi asosiy banner
- * («Uydagidek ta'm — bir necha daqiqada») doim birinchi turadi; admin
+ * (ilovaning o'z 3 ta slaydi) doim birinchi turadi; admin
  * qo'shgan faol bannerlar undan keyin karuselda almashadi.
  * Server: api/_lib/actions/home.ts.
  */

@@ -12,7 +12,7 @@ type Props = {
 
 /**
  * «Buyurtma qabul qilindi» — bayram: ✓ belgisi aylana bilan chizilib
- * paydo bo'ladi, atrofga muz kristallari sochiladi (brend: muzlatilgan
+ * paydo bo'ladi, atrofga sovun pufakchalari sochiladi (brend: tozalik
  * mahsulot). Tugma bosilishi bilan oyna darhol yo'qoladi — kutish yo'q.
  */
 export function CheckoutSuccess({ onViewOrders, onClose }: Props) {

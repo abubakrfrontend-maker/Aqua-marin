@@ -68,7 +68,7 @@ export const DAILY_DEFAULTS: DailySettings = {
   customers: true,
   channel: false,
   title: 'Bugun buyurtma bering —',
-  accent: 'Muzdek holda yetkazamiz',
+  accent: 'Eshigingizgacha yetkazamiz',
   text: '✨ <b>Bugungi tanlov</b>\n\nBugun buyurtma bering — eshigingizgacha yetkazamiz! 👇',
   textRu: '✨ <b>Выбор дня</b>\n\nЗакажите сегодня — доставим прямо к двери! 👇',
   button: '🛒 Katalogni ochish',

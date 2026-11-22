@@ -138,8 +138,8 @@ export function ProductDetailPage({
           data-fly-source
           className={
             'pd-hero relative mx-auto w-full overflow-hidden '
-            // Set rasmi 16:9 — maydon ham shunday, tepa-pastda oq bo'shliq qolmasin
-            + (product.bundle?.length ? 'aspect-video' : 'h-[320px] sm:h-[420px]')
+            // Set rasmi 16:9; oddiy mahsulot — kvadrat, rasm maydonni to'liq to'ldiradi
+            + (product.bundle?.length ? 'aspect-video' : 'pd-hero--photo aspect-square max-h-[460px]')
           }
           style={{ opacity: soldOut ? 0.55 : 1 }}
         >
@@ -203,10 +203,13 @@ export function ProductDetailPage({
         </div>
 
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          <span className="pd-chip">
-            <Star size={15} fill="var(--warning)" style={{ color: 'var(--warning)' }} />
-            {avgRating} ({t('product.ratingCount', { count: reviewCount })})
-          </span>
+          {/* Hali baho yo'q bo'lsa «5.0 (0 ta baho)» chiqmasin */}
+          {reviewCount > 0 && (
+            <span className="pd-chip">
+              <Star size={15} fill="var(--warning)" style={{ color: 'var(--warning)' }} />
+              {avgRating} ({t('product.ratingCount', { count: reviewCount })})
+            </span>
+          )}
           <span className="pd-chip">
             <Truck size={15} /> {t('product.fastDelivery')}
           </span>

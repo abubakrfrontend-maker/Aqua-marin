@@ -11,7 +11,7 @@ import { BANNER_THEMES, type BannerLayout, type BannerTarget, type BannerTheme, 
 /**
  * Bosh sahifa bannerlari.
  *
- * Ilovadagi asosiy banner («Uydagidek ta'm — bir necha daqiqada») doim
+ * Ilovadagi o'zimizning 3 ta slayd («Toza uy — bir necha daqiqada» va h.k.) doim
  * birinchi turadi. Bu yerda qo'shilgan faol bannerlar undan keyin
  * karuselda almashadi — har 5 soniyada o'ngga suriladi.
  * Server: api/_lib/actions/home.ts (`home.banners`).
@@ -97,7 +97,7 @@ export function HomeBannersPage() {
           <div className="min-w-0 flex-1">
             <h2 className="text-base font-extrabold">Bosh sahifa bannerlari</h2>
             <p className="mt-1 text-sm" style={{ color: 'var(--muted)' }}>
-              Asosiy banner («Uydagidek ta’m — bir necha daqiqada») doim birinchi turadi. Qo‘shilgan faol bannerlar undan
+              Ilovaning o‘z 3 ta slaydi («Toza uy — bir necha daqiqada» va boshqalar) doim birinchi turadi. Qo‘shilgan faol bannerlar undan
               keyin karuselda chiqadi va har 5 soniyada o‘ngga suriladi.
             </p>
           </div>

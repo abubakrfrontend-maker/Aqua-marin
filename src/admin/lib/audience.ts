@@ -19,7 +19,7 @@ export const AUDIENCES: { key: Audience; label: string; hint: string }[] = [
   { key: 'buyers', label: 'Xarid qilganlar', hint: 'Kamida bitta buyurtma bergan mijozlar' },
   { key: 'never', label: 'Hali xarid qilmaganlar', hint: 'Botga kirgan, lekin buyurtma bermaganlar — birinchi xaridga undash uchun' },
   { key: 'category', label: 'Kategoriya bo‘yicha', hint: 'Tanlangan kategoriyadan xarid qilganlar' },
-  { key: 'product', label: 'Mahsulot bo‘yicha', hint: 'Aniq mahsulotni olganlar — masalan yangi ta’mi chiqqanda' },
+  { key: 'product', label: 'Mahsulot bo‘yicha', hint: 'Aniq mahsulotni olganlar — masalan yangi hidi yoki hajmi chiqqanda' },
   { key: 'lapsed', label: 'Uzoq vaqt buyurtma bermaganlar', hint: 'Avval olgan, lekin so‘nggi kunlarda qaytmaganlar — «sizni sog‘indik»' },
   { key: 'active', label: 'Yaqinda ilovaga kirganlar', hint: 'So‘nggi kunlarda ilovani ochganlar' },
   { key: 'manual', label: 'Qo‘lda tanlash', hint: 'Ro‘yxatdan kerakli mijozlarni belgilang' },

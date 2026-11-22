@@ -12,8 +12,7 @@ type Draft = { id?: string; name: string; nameRu: string; icon: string }
 
 /** Admin tanlashi mumkin bo'lgan ikonka kalitlari — category-icons.ts dagilar. */
 const ICONS = [
-  'chuchvara', 'manti', 'somsa', 'kotlet', 'tovuq', 'meat', 'fish',
-  'muzqaymoq', 'eskimo', 'sirok', 'sut', 'xamir', 'frozen', 'set', 'box',
+  'kir', 'idish', 'tozalash', 'pol', 'santexnika', 'sovun', 'oyna', 'kiyim', 'set', 'box',
 ]
 
 export function CategoriesPage() {
@@ -182,7 +181,7 @@ export function CategoriesPage() {
             className="adm-input"
             value={draft.name}
             onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-            placeholder="Chuchvara"
+            placeholder="Kir yuvish kukunlari"
           />
 
           {/* Ruscha nom faqat ko'rinish uchun — mahsulotlar kategoriyaga

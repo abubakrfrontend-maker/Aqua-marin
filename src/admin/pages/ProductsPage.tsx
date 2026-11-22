@@ -773,7 +773,7 @@ function ProductForm({
                 className="adm-input"
                 value={draft.color}
                 onChange={(e) => set({ color: e.target.value })}
-                placeholder="Mol go‘shti"
+                placeholder="Limon hidli"
               />
             </Field>
           </>

@@ -177,7 +177,7 @@ export function BroadcastPage() {
             rows={7}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder={'🎉 Yangi mahsulot!\n\nAqua Marin plombiri endi katalogda. Buyurtma bering — tez yetkazamiz.'}
+            placeholder={'🎉 Yangi mahsulot!\n\nAqua Marin yangi kir yuvish geli endi katalogda. Buyurtma bering — tez yetkazamiz.'}
             disabled={running}
             maxLength={3500}
           />

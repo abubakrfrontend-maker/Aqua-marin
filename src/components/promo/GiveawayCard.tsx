@@ -24,8 +24,6 @@ type Board = {
 }
 
 const BOT = BRAND.botUsername
-/** Kartadagi rasmlar — «Sog'lom O'quv Mavsumi» tarkibidan. */
-const PICS = ['503162', '271876', '641125']
 const MEDALS = ['🥇', '🥈', '🥉']
 
 function useCountdown(endAt: string | null) {
@@ -93,7 +91,8 @@ export function GiveawayCard({ userId, products }: { userId: number | null; prod
     }
   }
 
-  const pics = PICS.map((id) => products.find((p) => String(p.id) === id)).filter((p): p is Product => !!p)
+  // Kartadagi rasmlar — rasmi bor dastlabki 3 ta mahsulot (setlarsiz)
+  const pics = products.filter((p: Product) => p.images?.length && !p.bundle?.length).slice(0, 3)
   const me = board?.me ?? null
   const top = board?.top ?? []
 

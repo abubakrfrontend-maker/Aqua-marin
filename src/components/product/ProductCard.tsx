@@ -177,7 +177,7 @@ export function ProductCard({ product, onOpen, onAddToCart, cartQtyOf, onChangeQ
       >
         <div className={'product-card-image ' + (soldOut ? 'sold-out' : '')}>
           {imgSrc && !imgError ? (
-            <ProductImage src={imgSrc} alt={product.name} onError={() => setImgError(true)} />
+            <ProductImage src={imgSrc} alt={product.name} backdrop onError={() => setImgError(true)} />
           ) : (
             <div className="product-card-placeholder">
               <ShoppingCart size={36} />

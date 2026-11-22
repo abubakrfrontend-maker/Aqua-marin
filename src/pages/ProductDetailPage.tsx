@@ -158,6 +158,7 @@ export function ProductDetailPage({
                 src={productPhoto(product, activeImage)}
                 placeholder={productThumb(product, activeImage)}
                 alt={product.name}
+                backdrop={!product.bundle?.length}
                 loading="eager"
               />
               <span className="detail-zoom-hint">

@@ -10,6 +10,12 @@ type Props = {
    * shuning uchun sahifa ochilishi bilan rasm darhol ko'rinadi.
    */
   placeholder?: string
+  /**
+   * Bo'sh joyni shu rasmning xira nusxasi bilan to'ldirish. Mahsulot o'zi
+   * doim to'liq ko'rinadi (kesilmaydi), kvadrat maydon esa bo'sh ko'rinmaydi —
+   * fonli foto ham, fonsiz PNG ham chiroyli turadi.
+   */
+  backdrop?: boolean
   onError?: () => void
 }
 
@@ -22,12 +28,15 @@ type Props = {
  * Rasm yuklangach yumshoq paydo bo'ladi: sekin tarmoqda yuqoridan pastga
  * «chizilib» chiqish o'rniga birdan to'liq ko'rinadi.
  */
-export function ProductImage({ src, alt, loading = 'lazy', placeholder, onError }: Props) {
+export function ProductImage({ src, alt, loading = 'lazy', placeholder, backdrop = false, onError }: Props) {
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null)
   const loaded = loadedSrc === src
 
   return (
-    <span className="product-image">
+    <span className={'product-image' + (backdrop ? ' product-image--backdrop' : '')}>
+      {backdrop && (
+        <img className="product-image__bg" src={placeholder || src} alt="" aria-hidden="true" decoding="async" loading={loading} />
+      )}
       {placeholder && placeholder !== src && !loaded && (
         <img className="product-image__main" src={placeholder} alt="" aria-hidden="true" decoding="async" />
       )}

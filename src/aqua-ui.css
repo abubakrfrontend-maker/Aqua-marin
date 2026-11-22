@@ -898,14 +898,28 @@ h1, h2, h3 { font-family: var(--font-display); }
 }
 
 
-/* ── Mahsulot rasmi maydonni to'liq to'ldiradi (1:1) ──
-   Rasm qanday nisbatda yuklansa ham (masalan 3:4), kartada ikki chetida
-   bo'sh joy qolmaydi — `cover`: markazdan to'ldiriladi. To'liq rasm
-   mahsulot sahifasida bosib kattalashtirilganda ko'rinadi.
-   Set kartalari bundan mustasno (ularda xira fonli 16:9 dizayn). */
-.product-card:not(.product-card--set) .product-card-image .product-image__main,
-.pd-hero--photo .product-image__main {
+/* ── Mahsulot rasmi: 1:1 maydon to'la, mahsulot esa hech qachon kesilmaydi ──
+   Rasm `contain` bilan to'liq ko'rinadi; ortidagi bo'sh joy shu rasmning
+   xira, kattalashtirilgan nusxasi bilan to'ladi (ProductImage → backdrop).
+   Fonli foto (3:4) yonlarida bo'sh chiziq qolmaydi, fonsiz PNG esa
+   chetidan chiqib ketmaydi. */
+.product-image--backdrop { background: var(--surface-2); }
+.product-image__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: center;
+  filter: blur(18px) saturate(1.15);
+  opacity: 0.5;
+  transform: scale(1.25);
+  pointer-events: none;
 }
+.product-image--backdrop .product-image__main {
+  z-index: 1;
+  padding: 6%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgb(8 32 82 / 0.14));
+}
+.pd-hero--photo .product-image--backdrop .product-image__main { padding: 5%; }
 .pd-hero--photo { margin-left: auto; margin-right: auto; max-width: 460px; }

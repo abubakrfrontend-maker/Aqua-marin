@@ -371,34 +371,57 @@ h1, h2, h3 { font-family: var(--font-display); }
 }
 :root.kb-open .bottom-nav { transform: translateY(calc(100% + 1rem + var(--safe-bottom))); }
 .nav-item {
-  flex: 0 0 auto;
-  min-width: 48px;
+  /* Moslashuvchan: tor ekranda ham beshala belgi chegarada qoladi */
+  flex: 1 1 0;
+  min-width: 40px;
   height: 48px;
   flex-direction: row;
   justify-content: center;
   gap: 0.5rem;
   border-radius: 999px;
-  padding: 0 0.7rem;
+  padding: 0;
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--muted);
-  transition: background-color 0.25s ease, color 0.25s ease, padding 0.25s ease;
+  transition: background-color 0.25s ease, color 0.25s ease, flex-grow 0.25s ease;
 }
 .nav-item:hover { background: transparent; color: var(--ink); }
-.nav-label { display: none; white-space: nowrap; }
+.nav-label {
+  display: none;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .nav-item.active {
-  padding: 0 1rem 0 0.35rem;
+  /* Faol bo'lim — yozuvi bilan o'z kengligida; joy yetmasa yozuv qisqaradi */
+  flex: 0 1 auto;
+  min-width: 0;
+  justify-content: flex-start;
+  padding: 0 0.85rem 0 0.3rem;
   background: var(--brand-soft);
   color: var(--ink);
 }
-.nav-item.active .nav-label { display: inline; animation: navLabelIn 0.3s ease; }
-.nav-icon { display: grid; place-items: center; }
+.nav-item.active .nav-label { display: block; animation: navLabelIn 0.3s ease; }
+.nav-icon { display: grid; flex-shrink: 0; place-items: center; }
 .nav-item.active .nav-icon {
   width: 38px;
   height: 38px;
   border-radius: 999px;
   background: var(--brand);
   color: var(--brand-ink);
+}
+/* Tor ekran (≤ 380px): yozuv biroz kichikroq — «Buyurtmalar» ham sig'adi */
+@media (max-width: 380px) {
+  .nav-item { font-size: 0.76rem; }
+  .nav-item.active { gap: 0.4rem; padding-right: 0.7rem; }
+  .nav-item.active .nav-icon { width: 36px; height: 36px; }
+}
+/* Juda tor ekran (≤ 340px): faqat ikonkalar, faol bo'lim — to'q doira */
+@media (max-width: 340px) {
+  .bottom-nav { left: 0.6rem; right: 0.6rem; }
+  .nav-item.active { flex: 1 1 0; min-width: 40px; justify-content: center; padding: 0; background: transparent; }
+  .nav-item.active .nav-label { display: none; }
 }
 @keyframes navLabelIn { from { opacity: 0; transform: translateX(-4px); } to { opacity: 1; transform: none; } }
 
